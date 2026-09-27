@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Minimal Geometric LATER Mark: Bookmark Fold + Architectural L -->
+    <!-- Terracotta Folded Card Mark -->
+    <path
+        android:pathData="M30,26 L64,26 L78,40 L78,82 L30,82 Z"
+        android:fillColor="#C6532D" />
+
+    <!-- Folded Bookmark Corner Flap (Dark Accent #A83F22) -->
+    <path
+        android:pathData="M64,26 L78,40 L64,40 Z"
+        android:fillColor="#A83F22" />
+
+    <!-- Architectural "L" Cutout / Lettermark in Paper Cream -->
+    <path
+        android:pathData="M43,42 L51,42 L51,64 L65,64 L65,71 L43,71 Z"
+        android:fillColor="#F7F3EA" />
+</vector>
