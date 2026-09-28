@@ -1,0 +1,1091 @@
+{
+  "planName": "React Developer in 3 Months",
+  "goal": "Become a React Developer",
+  "duration": 90,
+  "days": [
+    {
+      "day": 1,
+      "buildThis": "Interactive Counter",
+      "skill": "React State",
+      "task": "Add increment, decrement, and reset buttons with min/max bounds",
+      "starterCode": "import React, { useState } from \"react\";\n\nexport default function Counter() {\n  const [count, setCount] = useState(0);\n  return (\n    <div style={{ textAlign: \"center\", padding: 20 }}>\n      <h2>Count: {count}</h2>\n      <button onClick={() => setCount(c => c + 1)}>Increment</button>\n      <button onClick={() => setCount(c => Math.max(0, c - 1))}>Decrement</button>\n      <button onClick={() => setCount(0)}>Reset</button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 20,
+      "uses": [
+        "useState",
+        "Event Handlers"
+      ]
+    },
+    {
+      "day": 2,
+      "buildThis": "Todo List",
+      "skill": "State + Arrays",
+      "task": "Add, complete, and delete todo items from an active list",
+      "starterCode": "import React, { useState } from \"react\";\n\nexport default function TodoList() {\n  const [todos, setTodos] = useState([]);\n  const [input, setInput] = useState(\"\");\n\n  const addTodo = () => {\n    if (!input.trim()) return;\n    setTodos([...todos, { id: Date.now(), text: input, done: false }]);\n    setInput(\"\");\n  };\n\n  const toggle = (id) => {\n    setTodos(todos.map(t => t.id === id ? { ...t, done: !t.done } : t));\n  };\n\n  return (\n    <div>\n      <input value={input} onChange={e => setInput(e.target.value)} placeholder=\"New task...\" />\n      <button onClick={addTodo}>Add</button>\n      <ul>\n        {todos.map(t => (\n          <li key={t.id} onClick={() => toggle(t.id)} style={{ textDecoration: t.done ? \"line-through\" : \"none\" }}>\n            {t.text}\n          </li>\n        ))}\n      </ul>\n    </div>\n  );\n}",
+      "estimatedMinutes": 25,
+      "uses": [
+        "useState",
+        "Array.map",
+        "Immutable updates"
+      ]
+    },
+    {
+      "day": 3,
+      "buildThis": "Color Flipper",
+      "skill": "Math & Inline Styles",
+      "task": "Change background color randomly on button click and display hex code",
+      "starterCode": "import React, { useState } from \"react\";\n\nconst COLORS = [\"#F4F1DE\", \"#E07A5F\", \"#3D405B\", \"#81B29A\", \"#F2CC8F\", \"#E63946\"];\n\nexport default function ColorFlipper() {\n  const [color, setColor] = useState(\"#F4F1DE\");\n  const randomize = () => {\n    const next = COLORS[Math.floor(Math.random() * COLORS.length)];\n    setColor(next);\n  };\n  return (\n    <div style={{ backgroundColor: color, height: \"100vh\", display: \"grid\", placeItems: \"center\" }}>\n      <h1>Current Color: {color}</h1>\n      <button onClick={randomize}>Flip Color</button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 20,
+      "uses": [
+        "useState",
+        "Inline Styles",
+        "Math.random"
+      ]
+    },
+    {
+      "day": 4,
+      "buildThis": "Character & Word Counter",
+      "skill": "Derived State",
+      "task": "Real-time count of characters, words, and reading time for textarea input",
+      "starterCode": "import React, { useState } from \"react\";\n\nexport default function WordCounter() {\n  const [text, setText] = useState(\"\");\n  const words = text.trim() ? text.trim().split(/\\s+/).length : 0;\n  const readingTime = Math.ceil(words / 200);\n\n  return (\n    <div>\n      <textarea rows={6} value={text} onChange={e => setText(e.target.value)} placeholder=\"Type here...\" />\n      <p>Chars: {text.length} | Words: {words} | Read time: {readingTime}m</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 20,
+      "uses": [
+        "Controlled Components",
+        "Derived State"
+      ]
+    },
+    {
+      "day": 5,
+      "buildThis": "Accordion Component",
+      "skill": "Conditional Rendering",
+      "task": "Collapsible FAQ accordion with single-expand or multi-expand support",
+      "starterCode": "import React, { useState } from \"react\";\n\nexport default function Accordion({ items = [{ q: \"What is React?\", a: \"A JS UI library\" }] }) {\n  const [openIndex, setOpenIndex] = useState(null);\n  return (\n    <div>\n      {items.map((item, i) => (\n        <div key={i}>\n          <button onClick={() => setOpenIndex(openIndex === i ? null : i)}>{item.q}</button>\n          {openIndex === i && <p>{item.a}</p>}\n        </div>\n      ))}\n    </div>\n  );\n}",
+      "estimatedMinutes": 25,
+      "uses": [
+        "Conditional Rendering",
+        "Lifting State"
+      ]
+    },
+    {
+      "day": 6,
+      "buildThis": "Simple Modal Dialog",
+      "skill": "Portal & Backdrop",
+      "task": "Custom modal overlay with backdrop click-to-close and escape key handler",
+      "starterCode": "import React, { useState } from \"react\";\n\nexport default function ModalDemo() {\n  const [open, setOpen] = useState(false);\n  return (\n    <div>\n      <button onClick={() => setOpen(true)}>Open Modal</button>\n      {open && (\n        <div style={{ position: \"fixed\", inset: 0, background: \"rgba(0,0,0,0.5)\", display: \"flex\", alignItems: \"center\", justifyContent: \"center\" }}>\n          <div style={{ background: \"#fff\", padding: 24, borderRadius: 8 }}>\n            <h3>Attention</h3>\n            <p>You stopped tutorial hell!</p>\n            <button onClick={() => setOpen(false)}>Close</button>\n          </div>\n        </div>\n      )}\n    </div>\n  );\n}",
+      "estimatedMinutes": 25,
+      "uses": [
+        "Portals / Overlays",
+        "Event Propagation"
+      ]
+    },
+    {
+      "day": 7,
+      "buildThis": "Form Validator",
+      "skill": "Form State & Validation",
+      "task": "Sign up form with email regex, password strength, and validation error messages",
+      "starterCode": "import React, { useState } from \"react\";\n\nexport default function FormValidator() {\n  const [form, setForm] = useState({ email: \"\", password: \"\" });\n  const [error, setError] = useState(\"\");\n\n  const submit = (e) => {\n    e.preventDefault();\n    if (!form.email.includes(\"@\")) return setError(\"Invalid email\");\n    if (form.password.length < 8) return setError(\"Password must be >= 8 chars\");\n    setError(\"\");\n    alert(\"Valid submission!\");\n  };\n\n  return (\n    <form onSubmit={submit}>\n      <input placeholder=\"Email\" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} />\n      <input type=\"password\" placeholder=\"Password\" value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} />\n      {error && <span style={{ color: \"red\" }}>{error}</span>}\n      <button type=\"submit\">Register</button>\n    </form>\n  );\n}",
+      "estimatedMinutes": 30,
+      "uses": [
+        "Form handling",
+        "Regex Validation"
+      ]
+    },
+    {
+      "day": 8,
+      "buildThis": "Interactive Star Rating",
+      "skill": "Hover & Rating State",
+      "task": "5-star rating widget with hover preview and active click lock",
+      "starterCode": "import React, { useState } from \"react\";\n\nexport default function StarRating({ total = 5 }) {\n  const [rating, setRating] = useState(0);\n  const [hover, setHover] = useState(0);\n  return (\n    <div>\n      {[...Array(total)].map((_, i) => {\n        const val = i + 1;\n        return (\n          <span key={val} onClick={() => setRating(val)} onMouseEnter={() => setHover(val)} onMouseLeave={() => setHover(0)} style={{ cursor: \"pointer\", color: val <= (hover || rating) ? \"#E07A5F\" : \"#ccc\", fontSize: 28 }}>\n            ★\n          </span>\n        );\n      })}\n    </div>\n  );\n}",
+      "estimatedMinutes": 20,
+      "uses": [
+        "Hover events",
+        "Array mapping"
+      ]
+    },
+    {
+      "day": 9,
+      "buildThis": "Search Filter List",
+      "skill": "Filtering Arrays",
+      "task": "Filter an array of developer tech stacks in real-time as user types in input",
+      "starterCode": "import React, { useState } from \"react\";\n\nconst STACKS = [\"React\", \"React Native\", \"TypeScript\", \"Node.js\", \"Next.js\", \"GraphQL\", \"TailwindCSS\"];\n\nexport default function SearchFilter() {\n  const [query, setQuery] = useState(\"\");\n  const filtered = STACKS.filter(s => s.toLowerCase().includes(query.toLowerCase()));\n  return (\n    <div>\n      <input placeholder=\"Search tech...\" value={query} onChange={e => setQuery(e.target.value)} />\n      <ul>{filtered.map(s => <li key={s}>{s}</li>)}</ul>\n    </div>\n  );\n}",
+      "estimatedMinutes": 20,
+      "uses": [
+        "Array.prototype.filter",
+        "Controlled input"
+      ]
+    },
+    {
+      "day": 10,
+      "buildThis": "Pomodoro Focus Timer",
+      "skill": "setInterval & State",
+      "task": "25-minute countdown timer with start, pause, and alarm sound cue",
+      "starterCode": "import React, { useState, useEffect } from \"react\";\n\nexport default function Pomodoro() {\n  const [seconds, setSeconds] = useState(25 * 60);\n  const [running, setRunning] = useState(false);\n\n  useEffect(() => {\n    if (!running) return;\n    const interval = setInterval(() => setSeconds(s => Math.max(0, s - 1)), 1000);\n    return () => clearInterval(interval);\n  }, [running]);\n\n  const mins = Math.floor(seconds / 60);\n  const secs = seconds % 60;\n  return (\n    <div>\n      <h2>{mins}:{secs < 10 ? \"0\" : \"\"}{secs}</h2>\n      <button onClick={() => setRunning(!running)}>{running ? \"Pause\" : \"Start\"}</button>\n      <button onClick={() => { setRunning(false); setSeconds(25 * 60); }}>Reset</button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 30,
+      "uses": [
+        "useEffect cleanup",
+        "Timer intervals"
+      ]
+    },
+    {
+      "day": 11,
+      "buildThis": "Theme Switcher",
+      "skill": "useContext",
+      "task": "Dark/Light theme toggle using React Context API",
+      "starterCode": "import React, { useState, useEffect } from \"react\";\n\n// Day 11: Theme Switcher\nexport default function ThemeSwitcher() {\n  const [data, setData] = useState(null);\n  return (\n    <div style={{ padding: 20 }}>\n      <h3>Theme Switcher</h3>\n      <p>Implementation for useContext</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 35,
+      "uses": [
+        "useContext",
+        "Custom Provider"
+      ]
+    },
+    {
+      "day": 12,
+      "buildThis": "GitHub User Search",
+      "skill": "Fetch API & useEffect",
+      "task": "Fetch and display profile stats and repos from GitHub REST API",
+      "starterCode": "import React, { useState, useEffect } from \"react\";\n\n// Day 12: GitHub User Search\nexport default function GitHubUserSearch() {\n  const [data, setData] = useState(null);\n  return (\n    <div style={{ padding: 20 }}>\n      <h3>GitHub User Search</h3>\n      <p>Implementation for Fetch API & useEffect</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 35,
+      "uses": [
+        "fetch",
+        "useEffect",
+        "Loading State"
+      ]
+    },
+    {
+      "day": 13,
+      "buildThis": "Persistent Notes App",
+      "skill": "localStorage / AsyncStorage",
+      "task": "Notes editor that persists to device storage with auto-save",
+      "starterCode": "import React, { useState, useEffect } from \"react\";\n\n// Day 13: Persistent Notes App\nexport default function PersistentNotesApp() {\n  const [data, setData] = useState(null);\n  return (\n    <div style={{ padding: 20 }}>\n      <h3>Persistent Notes App</h3>\n      <p>Implementation for localStorage / AsyncStorage</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 35,
+      "uses": [
+        "Storage API",
+        "Debounce"
+      ]
+    },
+    {
+      "day": 14,
+      "buildThis": "Infinite Scrolling Feed",
+      "skill": "IntersectionObserver",
+      "task": "Fetch next batch of items when user scrolls to bottom of container",
+      "starterCode": "import React, { useState, useEffect } from \"react\";\n\n// Day 14: Infinite Scrolling Feed\nexport default function InfiniteScrollingFeed() {\n  const [data, setData] = useState(null);\n  return (\n    <div style={{ padding: 20 }}>\n      <h3>Infinite Scrolling Feed</h3>\n      <p>Implementation for IntersectionObserver</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 35,
+      "uses": [
+        "IntersectionObserver",
+        "Pagination"
+      ]
+    },
+    {
+      "day": 15,
+      "buildThis": "Multi-Step Onboarding Form",
+      "skill": "State Machine / Reducer",
+      "task": "Step-by-step form wizard with back navigation and validation per step",
+      "starterCode": "import React, { useState, useEffect } from \"react\";\n\n// Day 15: Multi-Step Onboarding Form\nexport default function MultiStepOnboardingForm() {\n  const [data, setData] = useState(null);\n  return (\n    <div style={{ padding: 20 }}>\n      <h3>Multi-Step Onboarding Form</h3>\n      <p>Implementation for State Machine / Reducer</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 35,
+      "uses": [
+        "useReducer",
+        "State flow"
+      ]
+    },
+    {
+      "day": 16,
+      "buildThis": "Debounced Search Autocomplete",
+      "skill": "Custom Hooks",
+      "task": "Build useDebounce hook to delay API calls while typing",
+      "starterCode": "import React, { useState, useEffect } from \"react\";\n\n// Day 16: Debounced Search Autocomplete\nexport default function DebouncedSearchAutocomplete() {\n  const [data, setData] = useState(null);\n  return (\n    <div style={{ padding: 20 }}>\n      <h3>Debounced Search Autocomplete</h3>\n      <p>Implementation for Custom Hooks</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 35,
+      "uses": [
+        "useDebounce",
+        "Custom Hooks"
+      ]
+    },
+    {
+      "day": 17,
+      "buildThis": "Draggable Kanban Column",
+      "skill": "Drag and Drop Events",
+      "task": "Reorder tasks inside a Kanban board column using HTML5 DnD",
+      "starterCode": "import React, { useState, useEffect } from \"react\";\n\n// Day 17: Draggable Kanban Column\nexport default function DraggableKanbanColumn() {\n  const [data, setData] = useState(null);\n  return (\n    <div style={{ padding: 20 }}>\n      <h3>Draggable Kanban Column</h3>\n      <p>Implementation for Drag and Drop Events</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 35,
+      "uses": [
+        "dragStart",
+        "dragOver",
+        "Drop"
+      ]
+    },
+    {
+      "day": 18,
+      "buildThis": "Client-side Router",
+      "skill": "History API / Route State",
+      "task": "Custom declarative view switcher matching browser URL hash",
+      "starterCode": "import React, { useState, useEffect } from \"react\";\n\n// Day 18: Client-side Router\nexport default function ClientsideRouter() {\n  const [data, setData] = useState(null);\n  return (\n    <div style={{ padding: 20 }}>\n      <h3>Client-side Router</h3>\n      <p>Implementation for History API / Route State</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 35,
+      "uses": [
+        "HashRouter",
+        "Route matching"
+      ]
+    },
+    {
+      "day": 19,
+      "buildThis": "Dynamic Tab Bar",
+      "skill": "Component Composition",
+      "task": "Tabs with animated indicator and lazy-rendered content panes",
+      "starterCode": "import React, { useState, useEffect } from \"react\";\n\n// Day 19: Dynamic Tab Bar\nexport default function DynamicTabBar() {\n  const [data, setData] = useState(null);\n  return (\n    <div style={{ padding: 20 }}>\n      <h3>Dynamic Tab Bar</h3>\n      <p>Implementation for Component Composition</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 35,
+      "uses": [
+        "Children API",
+        "Active Tab State"
+      ]
+    },
+    {
+      "day": 20,
+      "buildThis": "Audio Player UI",
+      "skill": "HTML Audio Element & Refs",
+      "task": "Custom play/pause, scrub bar, and duration tracking via useRef",
+      "starterCode": "import React, { useState, useEffect } from \"react\";\n\n// Day 20: Audio Player UI\nexport default function AudioPlayerUI() {\n  const [data, setData] = useState(null);\n  return (\n    <div style={{ padding: 20 }}>\n      <h3>Audio Player UI</h3>\n      <p>Implementation for HTML Audio Element & Refs</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 35,
+      "uses": [
+        "useRef",
+        "Media Events"
+      ]
+    },
+    {
+      "day": 21,
+      "buildThis": "Responsive Image Gallery",
+      "skill": "CSS Grid & Lightbox",
+      "task": "Masonry photo layout with zoom-in modal preview",
+      "starterCode": "import React, { useState, useEffect } from \"react\";\n\n// Day 21: Responsive Image Gallery\nexport default function ResponsiveImageGallery() {\n  const [data, setData] = useState(null);\n  return (\n    <div style={{ padding: 20 }}>\n      <h3>Responsive Image Gallery</h3>\n      <p>Implementation for CSS Grid & Lightbox</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 35,
+      "uses": [
+        "CSS Grid",
+        "Modal overlay"
+      ]
+    },
+    {
+      "day": 22,
+      "buildThis": "Notification Toast Center",
+      "skill": "Portal & Global State",
+      "task": "Trigger success/error toast notifications that auto-dismiss after 3s",
+      "starterCode": "import React, { useState, useEffect } from \"react\";\n\n// Day 22: Notification Toast Center\nexport default function NotificationToastCenter() {\n  const [data, setData] = useState(null);\n  return (\n    <div style={{ padding: 20 }}>\n      <h3>Notification Toast Center</h3>\n      <p>Implementation for Portal & Global State</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 35,
+      "uses": [
+        "PubSub / Context",
+        "Timers"
+      ]
+    },
+    {
+      "day": 23,
+      "buildThis": "Swipeable List Items",
+      "skill": "Touch Gestures",
+      "task": "Swipe left to delete, swipe right to archive gesture controls",
+      "starterCode": "import React, { useState, useEffect } from \"react\";\n\n// Day 23: Swipeable List Items\nexport default function SwipeableListItems() {\n  const [data, setData] = useState(null);\n  return (\n    <div style={{ padding: 20 }}>\n      <h3>Swipeable List Items</h3>\n      <p>Implementation for Touch Gestures</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 35,
+      "uses": [
+        "onTouchStart",
+        "onTouchMove"
+      ]
+    },
+    {
+      "day": 24,
+      "buildThis": "Markdown Previewer",
+      "skill": "Text Parsing",
+      "task": "Live side-by-side markdown editor and HTML previewer",
+      "starterCode": "import React, { useState, useEffect } from \"react\";\n\n// Day 24: Markdown Previewer\nexport default function MarkdownPreviewer() {\n  const [data, setData] = useState(null);\n  return (\n    <div style={{ padding: 20 }}>\n      <h3>Markdown Previewer</h3>\n      <p>Implementation for Text Parsing</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 35,
+      "uses": [
+        "Parser",
+        "dangerouslySetInnerHTML"
+      ]
+    },
+    {
+      "day": 25,
+      "buildThis": "Countdown to Launch",
+      "skill": "Date arithmetic",
+      "task": "Live days/hours/minutes/seconds countdown to specified target date",
+      "starterCode": "import React, { useState, useEffect } from \"react\";\n\n// Day 25: Countdown to Launch\nexport default function CountdowntoLaunch() {\n  const [data, setData] = useState(null);\n  return (\n    <div style={{ padding: 20 }}>\n      <h3>Countdown to Launch</h3>\n      <p>Implementation for Date arithmetic</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 35,
+      "uses": [
+        "Date calculations",
+        "useEffect"
+      ]
+    },
+    {
+      "day": 26,
+      "buildThis": "Virtual Keyboard Input",
+      "skill": "Custom Key Event Handling",
+      "task": "On-screen keypad with numeric formatting and backspace logic",
+      "starterCode": "import React, { useState, useEffect } from \"react\";\n\n// Day 26: Virtual Keyboard Input\nexport default function VirtualKeyboardInput() {\n  const [data, setData] = useState(null);\n  return (\n    <div style={{ padding: 20 }}>\n      <h3>Virtual Keyboard Input</h3>\n      <p>Implementation for Custom Key Event Handling</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 35,
+      "uses": [
+        "Synthetic Events",
+        "String slices"
+      ]
+    },
+    {
+      "day": 27,
+      "buildThis": "Copy to Clipboard Tool",
+      "skill": "Navigator Clipboard API",
+      "task": "Format JSON/code snippets with 1-click copy feedback indicator",
+      "starterCode": "import React, { useState, useEffect } from \"react\";\n\n// Day 27: Copy to Clipboard Tool\nexport default function CopytoClipboardTool() {\n  const [data, setData] = useState(null);\n  return (\n    <div style={{ padding: 20 }}>\n      <h3>Copy to Clipboard Tool</h3>\n      <p>Implementation for Navigator Clipboard API</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 35,
+      "uses": [
+        "navigator.clipboard",
+        "Feedback timers"
+      ]
+    },
+    {
+      "day": 28,
+      "buildThis": "Window Resize Hook",
+      "skill": "Event Listeners & Cleanup",
+      "task": "Build useWindowDimensions hook with responsive breakpoint flags",
+      "starterCode": "import React, { useState, useEffect } from \"react\";\n\n// Day 28: Window Resize Hook\nexport default function WindowResizeHook() {\n  const [data, setData] = useState(null);\n  return (\n    <div style={{ padding: 20 }}>\n      <h3>Window Resize Hook</h3>\n      <p>Implementation for Event Listeners & Cleanup</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 35,
+      "uses": [
+        "useWindowDimensions",
+        "Resize events"
+      ]
+    },
+    {
+      "day": 29,
+      "buildThis": "Previous State Tracker",
+      "skill": "useRef for Previous Value",
+      "task": "Build usePrevious custom hook to compare previous vs current props",
+      "starterCode": "import React, { useState, useEffect } from \"react\";\n\n// Day 29: Previous State Tracker\nexport default function PreviousStateTracker() {\n  const [data, setData] = useState(null);\n  return (\n    <div style={{ padding: 20 }}>\n      <h3>Previous State Tracker</h3>\n      <p>Implementation for useRef for Previous Value</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 35,
+      "uses": [
+        "useRef",
+        "Render cycles"
+      ]
+    },
+    {
+      "day": 30,
+      "buildThis": "Offline Network Detector",
+      "skill": "Navigator Online API",
+      "task": "Banner alert showing when internet connection drops and reconnects",
+      "starterCode": "import React, { useState, useEffect } from \"react\";\n\n// Day 30: Offline Network Detector\nexport default function OfflineNetworkDetector() {\n  const [data, setData] = useState(null);\n  return (\n    <div style={{ padding: 20 }}>\n      <h3>Offline Network Detector</h3>\n      <p>Implementation for Navigator Online API</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 35,
+      "uses": [
+        "navigator.onLine",
+        "Online/Offline events"
+      ]
+    },
+    {
+      "day": 31,
+      "buildThis": "JWT Auth Flow",
+      "skill": "Token Storage & Axios Interceptors",
+      "task": "Login screen that stores JWT securely and attaches Bearer header",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 31: JWT Auth Flow\nexport default function JWTAuthFlow() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>JWT Auth Flow</h2>\n      <p>Demonstrates Token Storage & Axios Interceptors</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "Auth Tokens",
+        "Axios Interceptors"
+      ]
+    },
+    {
+      "day": 32,
+      "buildThis": "Protected Route Wrapper",
+      "skill": "Higher-Order Components",
+      "task": "Redirect unauthorized users to login when trying to view dashboard",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 32: Protected Route Wrapper\nexport default function ProtectedRouteWrapper() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>Protected Route Wrapper</h2>\n      <p>Demonstrates Higher-Order Components</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "HOC / Route Guards",
+        "Auth Context"
+      ]
+    },
+    {
+      "day": 33,
+      "buildThis": "Global State with Zustand",
+      "skill": "Zustand State Store",
+      "task": "Lightweight shopping cart state accessible across distant components",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 33: Global State with Zustand\nexport default function GlobalStatewithZustand() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>Global State with Zustand</h2>\n      <p>Demonstrates Zustand State Store</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "Zustand",
+        "Selectors"
+      ]
+    },
+    {
+      "day": 34,
+      "buildThis": "Query Caching with TanStack Query",
+      "skill": "Server State Cache",
+      "task": "Fetch, cache, and automatically revalidate API endpoints in background",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 34: Query Caching with TanStack Query\nexport default function QueryCachingwithTanStackQuery() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>Query Caching with TanStack Query</h2>\n      <p>Demonstrates Server State Cache</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "useQuery",
+        "QueryClient"
+      ]
+    },
+    {
+      "day": 35,
+      "buildThis": "Optimistic UI Updates",
+      "skill": "Optimistic State",
+      "task": "Like/Bookmark button that updates UI instantly before server response",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 35: Optimistic UI Updates\nexport default function OptimisticUIUpdates() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>Optimistic UI Updates</h2>\n      <p>Demonstrates Optimistic State</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "Optimistic UI",
+        "Rollback on error"
+      ]
+    },
+    {
+      "day": 36,
+      "buildThis": "File Drag & Drop Uploader",
+      "skill": "FileReader & FormData",
+      "task": "Upload images with dropzone, progress bar, and thumbnail preview",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 36: File Drag & Drop Uploader\nexport default function FileDragDropUploader() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>File Drag & Drop Uploader</h2>\n      <p>Demonstrates FileReader & FormData</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "FormData",
+        "FileReader API"
+      ]
+    },
+    {
+      "day": 37,
+      "buildThis": "Infinite Canvas / Whiteboard",
+      "skill": "Canvas API & Mouse Drag",
+      "task": "Freehand drawing tool on HTML5 canvas with color and stroke picker",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 37: Infinite Canvas / Whiteboard\nexport default function InfiniteCanvasWhiteboard() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>Infinite Canvas / Whiteboard</h2>\n      <p>Demonstrates Canvas API & Mouse Drag</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "Canvas 2D Context",
+        "Path drawing"
+      ]
+    },
+    {
+      "day": 38,
+      "buildThis": "Realtime Chat with WebSockets",
+      "skill": "WebSocket API",
+      "task": "Connect to WebSocket echo room and send/receive real-time messages",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 38: Realtime Chat with WebSockets\nexport default function RealtimeChatwithWebSockets() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>Realtime Chat with WebSockets</h2>\n      <p>Demonstrates WebSocket API</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "WebSocket",
+        "Message streams"
+      ]
+    },
+    {
+      "day": 39,
+      "buildThis": "Complex Filter Matrix",
+      "skill": "Multi-Facet Search",
+      "task": "Filter catalog by price range, categories, in-stock status, and sorting",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 39: Complex Filter Matrix\nexport default function ComplexFilterMatrix() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>Complex Filter Matrix</h2>\n      <p>Demonstrates Multi-Facet Search</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "Complex Reducers",
+        "URL Params"
+      ]
+    },
+    {
+      "day": 40,
+      "buildThis": "Virtual List for 10,000 items",
+      "skill": "Windowing / Virtualization",
+      "task": "Render only visible items in DOM to maintain silky 60fps scrolling",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 40: Virtual List for 10,000 items\nexport default function VirtualListforitems() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>Virtual List for 10,000 items</h2>\n      <p>Demonstrates Windowing / Virtualization</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "Virtual DOM",
+        "Scroll offsets"
+      ]
+    },
+    {
+      "day": 41,
+      "buildThis": "Rich Text WYSIWYG Editor",
+      "skill": "contentEditable & ExecCommand",
+      "task": "Bold, italic, list, and heading formatting toolbar for rich text",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 41: Rich Text WYSIWYG Editor\nexport default function RichTextWYSIWYGEditor() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>Rich Text WYSIWYG Editor</h2>\n      <p>Demonstrates contentEditable & ExecCommand</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "contentEditable",
+        "Selection API"
+      ]
+    },
+    {
+      "day": 42,
+      "buildThis": "Interactive SVG Chart",
+      "skill": "Data Visualization",
+      "task": "Line chart showing 30-day analytics trends using dynamic SVG paths",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 42: Interactive SVG Chart\nexport default function InteractiveSVGChart() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>Interactive SVG Chart</h2>\n      <p>Demonstrates Data Visualization</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "SVG Pathing",
+        "Math calculations"
+      ]
+    },
+    {
+      "day": 43,
+      "buildThis": "Form with Dynamic Fields",
+      "skill": "useFieldArray / Dynamic Arrays",
+      "task": "Add and remove multiple team members and roles dynamically in form",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 43: Form with Dynamic Fields\nexport default function FormwithDynamicFields() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>Form with Dynamic Fields</h2>\n      <p>Demonstrates useFieldArray / Dynamic Arrays</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "Nested Form State",
+        "Validation"
+      ]
+    },
+    {
+      "day": 44,
+      "buildThis": "i18n Translation Switcher",
+      "skill": "Localization",
+      "task": "Multi-language dictionary with English, Spanish, and French switcher",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 44: i18n Translation Switcher\nexport default function inTranslationSwitcher() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>i18n Translation Switcher</h2>\n      <p>Demonstrates Localization</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "Localization Context",
+        "String templates"
+      ]
+    },
+    {
+      "day": 45,
+      "buildThis": "Stripe Checkout Integration",
+      "skill": "Payment Gateway UI",
+      "task": "Card input formatting, CVV validation, and mock checkout sequence",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 45: Stripe Checkout Integration\nexport default function StripeCheckoutIntegration() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>Stripe Checkout Integration</h2>\n      <p>Demonstrates Payment Gateway UI</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "Payment Formatting",
+        "Async checkout"
+      ]
+    },
+    {
+      "day": 46,
+      "buildThis": "Audio Visualizer",
+      "skill": "Web Audio API",
+      "task": "Microphone frequency bar visualizer animated via requestAnimationFrame",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 46: Audio Visualizer\nexport default function AudioVisualizer() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>Audio Visualizer</h2>\n      <p>Demonstrates Web Audio API</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "AudioContext",
+        "requestAnimationFrame"
+      ]
+    },
+    {
+      "day": 47,
+      "buildThis": "PDF Export Generator",
+      "skill": "DOM to PDF Render",
+      "task": "Convert completed progress certificate to downloadable PDF format",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 47: PDF Export Generator\nexport default function PDFExportGenerator() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>PDF Export Generator</h2>\n      <p>Demonstrates DOM to PDF Render</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "Canvas/Blob",
+        "Download triggers"
+      ]
+    },
+    {
+      "day": 48,
+      "buildThis": "Accessibility Audited Menu",
+      "skill": "ARIA & Keyboard Nav",
+      "task": "Accessible dropdown navigation with Arrow keys and focus trap",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 48: Accessibility Audited Menu\nexport default function AccessibilityAuditedMenu() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>Accessibility Audited Menu</h2>\n      <p>Demonstrates ARIA & Keyboard Nav</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "ARIA roles",
+        "Focus management"
+      ]
+    },
+    {
+      "day": 49,
+      "buildThis": "Service Worker PWA Offline Cache",
+      "skill": "Workbox / Cache API",
+      "task": "Configure offline cache strategy for app assets and offline view",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 49: Service Worker PWA Offline Cache\nexport default function ServiceWorkerPWAOfflineCache() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>Service Worker PWA Offline Cache</h2>\n      <p>Demonstrates Workbox / Cache API</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "Service Worker",
+        "CacheStorage"
+      ]
+    },
+    {
+      "day": 50,
+      "buildThis": "GraphQL Query & Mutation",
+      "skill": "GraphQL Client",
+      "task": "Execute Apollo/URQL query with variables and mutations",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 50: GraphQL Query & Mutation\nexport default function GraphQLQueryMutation() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>GraphQL Query & Mutation</h2>\n      <p>Demonstrates GraphQL Client</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "GraphQL",
+        "Schema types"
+      ]
+    },
+    {
+      "day": 51,
+      "buildThis": "Multi-tenant Role Permissions",
+      "skill": "RBAC (Role Based Access)",
+      "task": "Toggle admin, editor, and viewer permission controls across UI",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 51: Multi-tenant Role Permissions\nexport default function MultitenantRolePermissions() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>Multi-tenant Role Permissions</h2>\n      <p>Demonstrates RBAC (Role Based Access)</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "RBAC Matrix",
+        "Permissions"
+      ]
+    },
+    {
+      "day": 52,
+      "buildThis": "Custom Video Player Controls",
+      "skill": "HTML5 Video Ref",
+      "task": "Speed toggle, picture-in-picture, timeline preview on hover",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 52: Custom Video Player Controls\nexport default function CustomVideoPlayerControls() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>Custom Video Player Controls</h2>\n      <p>Demonstrates HTML5 Video Ref</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "Video Events",
+        "Picture-in-Picture"
+      ]
+    },
+    {
+      "day": 53,
+      "buildThis": "Biometric Auth Prompt Mock",
+      "skill": "WebAuthn / Local Auth",
+      "task": "Simulate fingerprint/face unlock for secret developer logs",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 53: Biometric Auth Prompt Mock\nexport default function BiometricAuthPromptMock() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>Biometric Auth Prompt Mock</h2>\n      <p>Demonstrates WebAuthn / Local Auth</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "Biometrics Flow",
+        "Secure Storage"
+      ]
+    },
+    {
+      "day": 54,
+      "buildThis": "Syntax Highlighter Component",
+      "skill": "Regex Tokenizer",
+      "task": "Custom code snippet syntax colorizer for JS and JSX tokens",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 54: Syntax Highlighter Component\nexport default function SyntaxHighlighterComponent() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>Syntax Highlighter Component</h2>\n      <p>Demonstrates Regex Tokenizer</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "Regex Parsing",
+        "Token Highlighting"
+      ]
+    },
+    {
+      "day": 55,
+      "buildThis": "Background Sync Queue",
+      "skill": "IndexedDB / Offline Queue",
+      "task": "Queue mutations while offline and flush automatically on reconnection",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 55: Background Sync Queue\nexport default function BackgroundSyncQueue() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>Background Sync Queue</h2>\n      <p>Demonstrates IndexedDB / Offline Queue</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "IndexedDB",
+        "Queue processor"
+      ]
+    },
+    {
+      "day": 56,
+      "buildThis": "Interactive Product Tour",
+      "skill": "Spotlight & Tooltips",
+      "task": "Step-by-step user onboarding tour highlighting UI elements",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 56: Interactive Product Tour\nexport default function InteractiveProductTour() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>Interactive Product Tour</h2>\n      <p>Demonstrates Spotlight & Tooltips</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "DOM BoundingBox",
+        "Spotlight mask"
+      ]
+    },
+    {
+      "day": 57,
+      "buildThis": "Voice-to-Text Input",
+      "skill": "Web Speech Recognition API",
+      "task": "Dictate code comments and notes via browser speech engine",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 57: Voice-to-Text Input\nexport default function VoicetoTextInput() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>Voice-to-Text Input</h2>\n      <p>Demonstrates Web Speech Recognition API</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "SpeechRecognition",
+        "Transcripts"
+      ]
+    },
+    {
+      "day": 58,
+      "buildThis": "Custom State Inspector",
+      "skill": "DevTools Hook",
+      "task": "Mini in-app time-travel debugging panel showing state history",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 58: Custom State Inspector\nexport default function CustomStateInspector() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>Custom State Inspector</h2>\n      <p>Demonstrates DevTools Hook</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "State snapshots",
+        "Time-travel debugging"
+      ]
+    },
+    {
+      "day": 59,
+      "buildThis": "Resizing Split Pane",
+      "skill": "Mouse Drag & Percentage Widths",
+      "task": "Resizable code editor and live preview panes with drag divider",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 59: Resizing Split Pane\nexport default function ResizingSplitPane() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>Resizing Split Pane</h2>\n      <p>Demonstrates Mouse Drag & Percentage Widths</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "Pointer capture",
+        "Percentage layout"
+      ]
+    },
+    {
+      "day": 60,
+      "buildThis": "Crash Boundary & Sentry Report",
+      "skill": "ErrorBoundary Lifecycle",
+      "task": "Catch UI rendering errors gracefully and render helpful recovery UI",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Day 60: Crash Boundary & Sentry Report\nexport default function CrashBoundarySentryReport() {\n  return (\n    <div style={{ padding: 20 }}>\n      <h2>Crash Boundary & Sentry Report</h2>\n      <p>Demonstrates ErrorBoundary Lifecycle</p>\n    </div>\n  );\n}",
+      "estimatedMinutes": 45,
+      "uses": [
+        "componentDidCatch",
+        "Fallback UI"
+      ]
+    },
+    {
+      "day": 61,
+      "buildThis": "Developer Portfolio Generator",
+      "skill": "Static Site Generator",
+      "task": "Full portfolio builder with customizable themes, projects, and export",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 61: Developer Portfolio Generator\nexport default function DeveloperPortfolioGenerator() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: Developer Portfolio Generator</h1>\n      <p>Architecture: Static Site Generator</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "Component Config",
+        "File Export"
+      ]
+    },
+    {
+      "day": 62,
+      "buildThis": "Mini Trello Board",
+      "skill": "State & Drag Lists",
+      "task": "Multi-column Kanban with card reordering, labels, and persistence",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 62: Mini Trello Board\nexport default function MiniTrelloBoard() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: Mini Trello Board</h1>\n      <p>Architecture: State & Drag Lists</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "DnD Architecture",
+        "Local Persistence"
+      ]
+    },
+    {
+      "day": 63,
+      "buildThis": "Dev Community Forum",
+      "skill": "Discussion & Threading",
+      "task": "Threaded comments with upvoting, nested replies, and markdown support",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 63: Dev Community Forum\nexport default function DevCommunityForum() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: Dev Community Forum</h1>\n      <p>Architecture: Discussion & Threading</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "Recursive Components",
+        "Vote State"
+      ]
+    },
+    {
+      "day": 64,
+      "buildThis": "GitHub Pull Request Reviewer",
+      "skill": "Diff Viewer & Code Comments",
+      "task": "Side-by-side code diff viewer with line-by-line comment threads",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 64: GitHub Pull Request Reviewer\nexport default function GitHubPullRequestReviewer() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: GitHub Pull Request Reviewer</h1>\n      <p>Architecture: Diff Viewer & Code Comments</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "Diff Parsing",
+        "Line Annotations"
+      ]
+    },
+    {
+      "day": 65,
+      "buildThis": "E-Commerce Product Explorer",
+      "skill": "Cart, Search & Filters",
+      "task": "Catalog with animated cart drawer, instant search, and stock status",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 65: E-Commerce Product Explorer\nexport default function ECommerceProductExplorer() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: E-Commerce Product Explorer</h1>\n      <p>Architecture: Cart, Search & Filters</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "Cart State Machine",
+        "Animations"
+      ]
+    },
+    {
+      "day": 66,
+      "buildThis": "Interactive Coding Playground",
+      "skill": "Sandboxed Code Execution",
+      "task": "In-browser live JS execution sandbox with console output pane",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 66: Interactive Coding Playground\nexport default function InteractiveCodingPlayground() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: Interactive Coding Playground</h1>\n      <p>Architecture: Sandboxed Code Execution</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "eval / iframe sandbox",
+        "Console capture"
+      ]
+    },
+    {
+      "day": 67,
+      "buildThis": "Spotify Web Player Clone",
+      "skill": "Audio Streams & Playlists",
+      "task": "Music player with seekbar, shuffle, repeat, and playlist queue",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 67: Spotify Web Player Clone\nexport default function SpotifyWebPlayerClone() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: Spotify Web Player Clone</h1>\n      <p>Architecture: Audio Streams & Playlists</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "Audio Streams",
+        "Queue Management"
+      ]
+    },
+    {
+      "day": 68,
+      "buildThis": "Full-Featured Dashboard",
+      "skill": "Analytics & Widgets",
+      "task": "Modular dashboard with resizable metric widgets and charts",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 68: Full-Featured Dashboard\nexport default function FullFeaturedDashboard() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: Full-Featured Dashboard</h1>\n      <p>Architecture: Analytics & Widgets</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "Grid Layout",
+        "Metric Calculations"
+      ]
+    },
+    {
+      "day": 69,
+      "buildThis": "Social Media Feed App",
+      "skill": "Stories, Posts & Comments",
+      "task": "Feed with image uploads, double-tap to like, and story circles",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 69: Social Media Feed App\nexport default function SocialMediaFeedApp() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: Social Media Feed App</h1>\n      <p>Architecture: Stories, Posts & Comments</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "Feed Virtualization",
+        "Gesture Handler"
+      ]
+    },
+    {
+      "day": 70,
+      "buildThis": "Job Application Tracker",
+      "skill": "Pipeline Kanban & Reminders",
+      "task": "Track applied jobs through interview stages with salary notes",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 70: Job Application Tracker\nexport default function JobApplicationTracker() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: Job Application Tracker</h1>\n      <p>Architecture: Pipeline Kanban & Reminders</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "Pipeline Management",
+        "Date Reminders"
+      ]
+    },
+    {
+      "day": 71,
+      "buildThis": "API Testing Tool (Mini Postman)",
+      "skill": "HTTP Client & Headers",
+      "task": "Send GET/POST/PUT requests with custom headers, query params, and body",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 71: API Testing Tool (Mini Postman)\nexport default function APITestingToolMiniPostman() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: API Testing Tool (Mini Postman)</h1>\n      <p>Architecture: HTTP Client & Headers</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "HTTP Engine",
+        "JSON Pretty Printer"
+      ]
+    },
+    {
+      "day": 72,
+      "buildThis": "Real-Time Collaborative Whiteboard",
+      "skill": "WebSocket Sync",
+      "task": "Multi-cursor drawing tool where two users draw simultaneously",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 72: Real-Time Collaborative Whiteboard\nexport default function RealTimeCollaborativeWhiteboard() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: Real-Time Collaborative Whiteboard</h1>\n      <p>Architecture: WebSocket Sync</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "Multi-cursor Tracking",
+        "Canvas Sync"
+      ]
+    },
+    {
+      "day": 73,
+      "buildThis": "Markdown Technical Blog",
+      "skill": "MDX & Syntax Highlight",
+      "task": "Full blog engine with syntax highlighted code blocks and reading time",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 73: Markdown Technical Blog\nexport default function MarkdownTechnicalBlog() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: Markdown Technical Blog</h1>\n      <p>Architecture: MDX & Syntax Highlight</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "MDX Pipeline",
+        "SEO Meta"
+      ]
+    },
+    {
+      "day": 74,
+      "buildThis": "Recipe & Meal Planner",
+      "skill": "Nutritional Math & Grocery List",
+      "task": "Weekly calendar meal planner that aggregates ingredient shopping lists",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 74: Recipe & Meal Planner\nexport default function RecipeMealPlanner() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: Recipe & Meal Planner</h1>\n      <p>Architecture: Nutritional Math & Grocery List</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "Calendar Grid",
+        "Aggregate Totals"
+      ]
+    },
+    {
+      "day": 75,
+      "buildThis": "Flashcard Spaced Repetition App",
+      "skill": "SuperMemo SM-2 Algorithm",
+      "task": "Study flashcard app calculating review intervals based on difficulty",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 75: Flashcard Spaced Repetition App\nexport default function FlashcardSpacedRepetitionApp() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: Flashcard Spaced Repetition App</h1>\n      <p>Architecture: SuperMemo SM-2 Algorithm</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "Spaced Repetition",
+        "Algorithm"
+      ]
+    },
+    {
+      "day": 76,
+      "buildThis": "Expense Tracker & Budgeter",
+      "skill": "Financial Charts & Categories",
+      "task": "Log daily expenses with category badges and monthly spending breakdown",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 76: Expense Tracker & Budgeter\nexport default function ExpenseTrackerBudgeter() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: Expense Tracker & Budgeter</h1>\n      <p>Architecture: Financial Charts & Categories</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "Financial Math",
+        "Category Slices"
+      ]
+    },
+    {
+      "day": 77,
+      "buildThis": "Video Streaming Interface",
+      "skill": "HLS / Video Library",
+      "task": "Netflix-style video row carousels with hover-to-preview videos",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 77: Video Streaming Interface\nexport default function VideoStreamingInterface() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: Video Streaming Interface</h1>\n      <p>Architecture: HLS / Video Library</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "Horizontal Carousels",
+        "Hover Triggers"
+      ]
+    },
+    {
+      "day": 78,
+      "buildThis": "Resume & CV Builder",
+      "skill": "Dynamic PDF Generation",
+      "task": "Form that previews real-time resume templates with one-click print",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 78: Resume & CV Builder\nexport default function ResumeCVBuilder() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: Resume & CV Builder</h1>\n      <p>Architecture: Dynamic PDF Generation</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "Print Stylesheets",
+        "Template Engines"
+      ]
+    },
+    {
+      "day": 79,
+      "buildThis": "Live Weather Radar & Forecast",
+      "skill": "Geolocation & OpenWeather",
+      "task": "Weather app with 7-day forecast, humidity graphs, and location auto-detect",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 79: Live Weather Radar & Forecast\nexport default function LiveWeatherRadarForecast() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: Live Weather Radar & Forecast</h1>\n      <p>Architecture: Geolocation & OpenWeather</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "Geolocation API",
+        "Weather API"
+      ]
+    },
+    {
+      "day": 80,
+      "buildThis": "Crypto & Stock Portfolio Tracker",
+      "skill": "Live CoinCap API & Alerts",
+      "task": "Real-time ticker with price change indicators and profit/loss math",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 80: Crypto & Stock Portfolio Tracker\nexport default function CryptoStockPortfolioTracker() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: Crypto & Stock Portfolio Tracker</h1>\n      <p>Architecture: Live CoinCap API & Alerts</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "WebSockets",
+        "Financial Formatting"
+      ]
+    },
+    {
+      "day": 81,
+      "buildThis": "Habit Tracker with Heatmap",
+      "skill": "GitHub-style Contribution Grid",
+      "task": "Log daily habits and view 365-day color intensity grid",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 81: Habit Tracker with Heatmap\nexport default function HabitTrackerwithHeatmap() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: Habit Tracker with Heatmap</h1>\n      <p>Architecture: GitHub-style Contribution Grid</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "Grid Rendering",
+        "Date Mathematics"
+      ]
+    },
+    {
+      "day": 82,
+      "buildThis": "Instant Messaging App",
+      "skill": "Direct Messages & Typing Indicator",
+      "task": "Chat rooms with read receipts, typing indicators, and emoji reactions",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 82: Instant Messaging App\nexport default function InstantMessagingApp() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: Instant Messaging App</h1>\n      <p>Architecture: Direct Messages & Typing Indicator</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "Typing Debounce",
+        "Receipt Status"
+      ]
+    },
+    {
+      "day": 83,
+      "buildThis": "Fitness Workout Planner",
+      "skill": "Exercise Sets & Rest Timer",
+      "task": "Build custom workout routines with auto-decrementing rest timers",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 83: Fitness Workout Planner\nexport default function FitnessWorkoutPlanner() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: Fitness Workout Planner</h1>\n      <p>Architecture: Exercise Sets & Rest Timer</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "Workout Sequences",
+        "Background Timers"
+      ]
+    },
+    {
+      "day": 84,
+      "buildThis": "Smart Bookmark & Archive Manager",
+      "skill": "Metadata Scraping & Search",
+      "task": "Save URLs, auto-extract title/favicon, and organize with tag system",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 84: Smart Bookmark & Archive Manager\nexport default function SmartBookmarkArchiveManager() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: Smart Bookmark & Archive Manager</h1>\n      <p>Architecture: Metadata Scraping & Search</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "URL Parsing",
+        "Tag Filtering"
+      ]
+    },
+    {
+      "day": 85,
+      "buildThis": "Podcast Player & Chapter Scrub",
+      "skill": "Audio Timestamps & Playback Speed",
+      "task": "Stream audio podcast episodes with clickable chapter markers",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 85: Podcast Player & Chapter Scrub\nexport default function PodcastPlayerChapterScrub() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: Podcast Player & Chapter Scrub</h1>\n      <p>Architecture: Audio Timestamps & Playback Speed</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "Chapter Jump",
+        "Playback Rates"
+      ]
+    },
+    {
+      "day": 86,
+      "buildThis": "Quiz & Certification Exam Engine",
+      "skill": "Timed Exams & Score Breakdown",
+      "task": "Multiple choice exam engine with countdown timer and review summary",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 86: Quiz & Certification Exam Engine\nexport default function QuizCertificationExamEngine() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: Quiz & Certification Exam Engine</h1>\n      <p>Architecture: Timed Exams & Score Breakdown</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "Exam State",
+        "Score Percentile"
+      ]
+    },
+    {
+      "day": 87,
+      "buildThis": "Virtual Pet Simulator",
+      "skill": "Tick Lifecycle & Sprite Animations",
+      "task": "Tamagotchi simulator with hunger, happiness, and sleep stats ticking over time",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 87: Virtual Pet Simulator\nexport default function VirtualPetSimulator() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: Virtual Pet Simulator</h1>\n      <p>Architecture: Tick Lifecycle & Sprite Animations</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "Game Loops",
+        "Stat Decay Logic"
+      ]
+    },
+    {
+      "day": 88,
+      "buildThis": "Invoice Generator & Billing Portal",
+      "skill": "Client Invoices & Tax Calculations",
+      "task": "Generate professional client invoices with itemized tax and PDF export",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 88: Invoice Generator & Billing Portal\nexport default function InvoiceGeneratorBillingPortal() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: Invoice Generator & Billing Portal</h1>\n      <p>Architecture: Client Invoices & Tax Calculations</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "Tax Mathematics",
+        "Currency Formatters"
+      ]
+    },
+    {
+      "day": 89,
+      "buildThis": "Full Capstone: SaaS Landing & App",
+      "skill": "Full Stack Architecture",
+      "task": "Production SaaS landing page with pricing toggle, testimonials, and app gateway",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 89: Full Capstone: SaaS Landing & App\nexport default function FullCapstoneSaaSLandingApp() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: Full Capstone: SaaS Landing & App</h1>\n      <p>Architecture: Full Stack Architecture</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "SaaS Architecture",
+        "Conversion Patterns"
+      ]
+    },
+    {
+      "day": 90,
+      "buildThis": "Senior React Graduation Project",
+      "skill": "Production Architecture",
+      "task": "Complete custom application built from scratch showcasing mastery of the 90-day plan",
+      "starterCode": "import React, { useState } from \"react\";\n\n// Capstone Day 90: Senior React Graduation Project\nexport default function SeniorReactGraduationProject() {\n  const [status, setStatus] = useState(\"building\");\n  return (\n    <div style={{ padding: 24, fontFamily: \"sans-serif\" }}>\n      <h1>Capstone: Senior React Graduation Project</h1>\n      <p>Architecture: Production Architecture</p>\n      <button onClick={() => setStatus(\"shipped\")}>\n        Status: {status}\n      </button>\n    </div>\n  );\n}",
+      "estimatedMinutes": 60,
+      "uses": [
+        "Full React Mastery",
+        "Production Ready"
+      ]
+    }
+  ]
+}

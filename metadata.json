@@ -1,6 +1,6 @@
 {
   "name": "LATER",
-  "description": "Personal memory app that remembers what you saved and puts the WHY first.",
+  "description": "AI learning coach for developers stuck in tutorial hell. Stop hiding, start building.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
