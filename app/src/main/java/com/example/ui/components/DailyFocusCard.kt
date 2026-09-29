@@ -49,20 +49,15 @@ import com.example.ui.theme.LaterTerracottaLight
 import com.example.ui.theme.NewsreaderFamily
 import com.example.ui.theme.PlusJakartaSansFamily
 
+import com.example.data.MemoryEntity
+
 /**
  * 3. Featured Daily-Focus Card for LATER
- *
- * Requirements:
- * - Light warm-tinted background with orange accent line
- * - Small uppercase label: “TODAY’S FOCUS”
- * - Title: “Redesign dashboard layout”
- * - Supporting text: “You saved a CSS Grid guide for this.”
- * - Compact metadata: “20 MIN · LEARN”
- * - Clear rust-orange text action: “START FOCUS SESSION →”
- * - Clearly actionable but elegant
+ * Dynamically binds to a real memory or demo workspace memory.
  */
 @Composable
 fun DailyFocusCard(
+    memory: MemoryEntity,
     modifier: Modifier = Modifier,
     onStartFocusSession: () -> Unit
 ) {
@@ -139,7 +134,7 @@ fun DailyFocusCard(
                         color = LaterTerracotta
                     )
 
-                    // Compact metadata: “20 MIN · LEARN”
+                    // Compact metadata: e.g. “20 MIN · LEARN”
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(4.dp),
@@ -155,7 +150,7 @@ fun DailyFocusCard(
                             modifier = Modifier.size(12.dp)
                         )
                         Text(
-                            text = "20 MIN · LEARN",
+                            text = "${memory.estimatedMinutes} MIN · ${(memory.category ?: "FOCUS").uppercase()}",
                             fontFamily = PlusJakartaSansFamily,
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Bold,
@@ -167,9 +162,9 @@ fun DailyFocusCard(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Title: “Redesign dashboard layout”
+                // Title from memory
                 Text(
-                    text = "Redesign dashboard layout",
+                    text = memory.title,
                     fontFamily = PlusJakartaSansFamily,
                     fontSize = 17.5.sp,
                     fontWeight = FontWeight.Bold,
@@ -179,9 +174,9 @@ fun DailyFocusCard(
 
                 Spacer(modifier = Modifier.height(4.dp))
 
-                // Supporting text: “You saved a CSS Grid guide for this.”
+                // Supporting text: saved why
                 Text(
-                    text = "You saved a CSS Grid guide for this.",
+                    text = memory.why,
                     fontFamily = NewsreaderFamily,
                     fontSize = 14.5.sp,
                     fontWeight = FontWeight.Medium,

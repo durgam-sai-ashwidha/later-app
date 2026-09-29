@@ -26,9 +26,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.automirrored.filled.OpenInNew
+import androidx.compose.material.icons.filled.Archive
 import androidx.compose.material.icons.filled.DeleteOutline
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.NotificationsActive
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -84,6 +88,10 @@ fun MemoryCard(
     memory: MemoryEntity,
     onClick: () -> Unit,
     onDelete: () -> Unit,
+    onEdit: () -> Unit = {},
+    onSetReminder: () -> Unit = {},
+    onArchive: () -> Unit = {},
+    onStartFocus: (MemoryEntity) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -181,7 +189,7 @@ fun MemoryCard(
                     )
                 }
 
-                // Three-dot overflow menu
+                // Three-dot overflow menu: Edit memory, Set reminder, Archive, Delete
                 Box {
                     IconButton(
                         onClick = { showMenu = true },
@@ -204,72 +212,72 @@ fun MemoryCard(
                         DropdownMenuItem(
                             text = {
                                 Text(
-                                    text = actionLabel,
+                                    text = "Edit memory",
                                     fontFamily = PlusJakartaSansFamily,
                                     fontSize = 13.5.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = LaterTerracotta
-                                )
-                            },
-                            leadingIcon = {
-                                Icon(
-                                    Icons.Default.PlayArrow,
-                                    contentDescription = null,
-                                    tint = LaterTerracotta,
-                                    modifier = Modifier.size(18.dp)
-                                )
-                            },
-                            onClick = {
-                                showMenu = false
-                                executeAction(context, memory, actionLabel)
-                            }
-                        )
-
-                        if (memory.content.startsWith("http://") || memory.content.startsWith("https://")) {
-                            DropdownMenuItem(
-                                text = {
-                                    Text(
-                                        text = "Open Source Link",
-                                        fontFamily = PlusJakartaSansFamily,
-                                        fontSize = 14.sp,
-                                        fontWeight = FontWeight.Medium,
-                                        color = LaterInkPrimary
-                                    )
-                                },
-                                leadingIcon = {
-                                    Icon(
-                                        Icons.AutoMirrored.Filled.OpenInNew,
-                                        contentDescription = null,
-                                        modifier = Modifier.size(18.dp)
-                                    )
-                                },
-                                onClick = {
-                                    showMenu = false
-                                    openUrl(context, memory.content)
-                                }
-                            )
-                        }
-
-                        DropdownMenuItem(
-                            text = {
-                                Text(
-                                    text = "Share Memory",
-                                    fontFamily = PlusJakartaSansFamily,
-                                    fontSize = 14.sp,
                                     fontWeight = FontWeight.Medium,
                                     color = LaterInkPrimary
                                 )
                             },
                             leadingIcon = {
                                 Icon(
-                                    Icons.Default.Share,
+                                    Icons.Default.Edit,
                                     contentDescription = null,
-                                    modifier = Modifier.size(18.dp)
+                                    tint = LaterInkPrimary,
+                                    modifier = Modifier.size(17.dp)
                                 )
                             },
                             onClick = {
                                 showMenu = false
-                                shareMemory(context, memory)
+                                onEdit()
+                            }
+                        )
+
+                        DropdownMenuItem(
+                            text = {
+                                Text(
+                                    text = "Set reminder",
+                                    fontFamily = PlusJakartaSansFamily,
+                                    fontSize = 13.5.sp,
+                                    fontWeight = FontWeight.Medium,
+                                    color = LaterInkPrimary
+                                )
+                            },
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Default.Schedule,
+                                    contentDescription = null,
+                                    tint = LaterTerracotta,
+                                    modifier = Modifier.size(17.dp)
+                                )
+                            },
+                            onClick = {
+                                showMenu = false
+                                onSetReminder()
+                            }
+                        )
+
+                        DropdownMenuItem(
+                            text = {
+                                Text(
+                                    text = "Archive",
+                                    fontFamily = PlusJakartaSansFamily,
+                                    fontSize = 13.5.sp,
+                                    fontWeight = FontWeight.Medium,
+                                    color = LaterInkPrimary
+                                )
+                            },
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Default.Archive,
+                                    contentDescription = null,
+                                    tint = LaterSecondaryText,
+                                    modifier = Modifier.size(17.dp)
+                                )
+                            },
+                            onClick = {
+                                showMenu = false
+                                onArchive()
                             }
                         )
 
@@ -278,7 +286,7 @@ fun MemoryCard(
                                 Text(
                                     text = "Delete",
                                     fontFamily = PlusJakartaSansFamily,
-                                    fontSize = 14.sp,
+                                    fontSize = 13.5.sp,
                                     fontWeight = FontWeight.SemiBold,
                                     color = LaterTerracotta
                                 )
@@ -288,7 +296,7 @@ fun MemoryCard(
                                     Icons.Default.DeleteOutline,
                                     contentDescription = null,
                                     tint = LaterTerracotta,
-                                    modifier = Modifier.size(18.dp)
+                                    modifier = Modifier.size(17.dp)
                                 )
                             },
                             onClick = {
@@ -391,7 +399,39 @@ fun MemoryCard(
                 }
             }
 
-            Spacer(modifier = Modifier.height(14.dp))
+            // Visible Later Moment block
+            Spacer(modifier = Modifier.height(10.dp))
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(6.dp))
+                    .background(Color(0xFFF4EDE2))
+                    .border(1.dp, LaterTerracotta.copy(alpha = 0.22f), RoundedCornerShape(6.dp))
+                    .padding(horizontal = 12.dp, vertical = 7.dp)
+            ) {
+                Column {
+                    Text(
+                        text = "LATER MOMENT",
+                        fontFamily = PlusJakartaSansFamily,
+                        fontSize = 9.5.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        letterSpacing = 1.sp,
+                        color = LaterTerracotta
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = memory.resolveLaterMoment(),
+                        fontFamily = PlusJakartaSansFamily,
+                        fontSize = 11.5.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = LaterInkPrimary,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
 
             // Divider line
             Box(
@@ -413,7 +453,11 @@ fun MemoryCard(
                     .border(1.dp, LaterTerracotta.copy(alpha = 0.25f), RoundedCornerShape(7.dp))
                     .clickable {
                         haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                        executeAction(context, memory, actionLabel)
+                        if (actionLabel.startsWith("START", ignoreCase = true)) {
+                            onStartFocus(memory)
+                        } else {
+                            executeAction(context, memory, actionLabel)
+                        }
                     }
                     .padding(horizontal = 14.dp, vertical = 11.dp)
                     .testTag("card_action_btn_${memory.id}"),

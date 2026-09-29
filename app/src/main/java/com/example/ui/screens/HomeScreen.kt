@@ -47,6 +47,8 @@ import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -72,10 +74,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.data.MemoryEntity
 import com.example.ui.components.DailyFocusCard
+import com.example.ui.components.EditMemoryDialog
+import com.example.ui.components.ExamplePreviewDialog
 import com.example.ui.components.FocusSessionDialog
 import com.example.ui.components.LaterLogoMark
 import com.example.ui.components.MemoryCard
+import com.example.ui.components.ProfileSettingsDialog
+import com.example.ui.components.SetReminderDialog
 import com.example.ui.theme.LaterBorder
 import com.example.ui.theme.LaterBorderSubtle
 import com.example.ui.theme.LaterCardBg
@@ -99,86 +106,40 @@ fun HomeScreen(
     onNavigateToCapture: () -> Unit,
     onNavigateToSearch: () -> Unit,
     onNavigateToDetail: (String) -> Unit,
-    onNavigateToPaywall: () -> Unit
+    onNavigateToPaywall: () -> Unit,
+    onStartFocusSession: (MemoryEntity?) -> Unit = {},
+    onOpenProfile: () -> Unit = {}
 ) {
     val haptic = LocalHapticFeedback.current
     val memories by viewModel.homeMemories.collectAsStateWithLifecycle()
     val totalCount by viewModel.memoryCount.collectAsStateWithLifecycle()
     val isPro by viewModel.isProSubscriber.collectAsStateWithLifecycle()
     val selectedCategory by viewModel.selectedCategory.collectAsStateWithLifecycle()
+    val selectedStateFilter by viewModel.selectedStateFilter.collectAsStateWithLifecycle()
     val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle()
     val sortOption by viewModel.sortOption.collectAsStateWithLifecycle()
+    val streak by viewModel.followThroughStreak.collectAsStateWithLifecycle()
+    val focusSessionsCompleted by viewModel.focusSessionsCompleted.collectAsStateWithLifecycle()
+    val todayFocus by viewModel.todayFocusMemory.collectAsStateWithLifecycle()
 
-    var showProfileDialog by remember { mutableStateOf(false) }
+    var showExamplePreview by remember { mutableStateOf(false) }
     var showSortMenu by remember { mutableStateOf(false) }
     var showFocusDialog by remember { mutableStateOf(false) }
+    var editingMemory by remember { mutableStateOf<MemoryEntity?>(null) }
+    var settingReminderMemory by remember { mutableStateOf<MemoryEntity?>(null) }
 
     val categories = listOf("All", "Learn", "Buy", "Try", "Reference", "Idea")
+    val memoryStates = listOf("All", "Needs action", "In progress", "Saved for later", "Completed")
 
     val searchInteractionSource = remember { MutableInteractionSource() }
     val isSearchFocused by searchInteractionSource.collectIsFocusedAsState()
 
-    val fabInteractionSource = remember { MutableInteractionSource() }
-    val isFabPressed by fabInteractionSource.collectIsPressedAsState()
-    val fabScale by animateFloatAsState(
-        targetValue = if (isFabPressed) 0.94f else 1f,
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessMediumLow
-        ),
-        label = "fab_scale"
-    )
-
-    Scaffold(
-        containerColor = LaterPaperBg,
-        floatingActionButton = {
-            // 6. Floating action: Rust-orange circular plus button in bottom-right with "Save memory" pill label
-            ExtendedFloatingActionButton(
-                onClick = {
-                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                    onNavigateToCapture()
-                },
-                interactionSource = fabInteractionSource,
-                containerColor = LaterTerracotta,
-                contentColor = Color.White,
-                shape = RoundedCornerShape(28.dp),
-                icon = {
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = "Save Memory Icon",
-                        modifier = Modifier.size(20.dp)
-                    )
-                },
-                text = {
-                    Text(
-                        text = "Save memory",
-                        fontFamily = PlusJakartaSansFamily,
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 0.4.sp
-                    )
-                },
-                modifier = Modifier
-                    .testTag("home_fab_add")
-                    .graphicsLayer {
-                        scaleX = fabScale
-                        scaleY = fabScale
-                    }
-                    .shadow(
-                        elevation = 6.dp,
-                        shape = RoundedCornerShape(28.dp),
-                        ambientColor = LaterTerracotta.copy(alpha = 0.35f),
-                        spotColor = LaterDarkAccent.copy(alpha = 0.4f)
-                    )
-            )
-        }
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(LaterPaperBg),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -200,7 +161,7 @@ fun HomeScreen(
                         modifier = Modifier
                             .clickable {
                                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                                showProfileDialog = true
+                                onOpenProfile()
                             }
                             .testTag("home_brand_header")
                     ) {
@@ -254,7 +215,7 @@ fun HomeScreen(
                                 )
                                 Spacer(modifier = Modifier.width(6.dp))
                                 Text(
-                                    text = "$attentionCount NEED ATTENTION",
+                                    text = "$attentionCount NEED A MOMENT",
                                     style = LaterTypographyTokens.archiveCounter
                                 )
                             }
@@ -269,7 +230,7 @@ fun HomeScreen(
                                 .border(1.dp, LaterBorder, CircleShape)
                             .clickable {
                                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                                showProfileDialog = true
+                                onOpenProfile()
                             }
                             .testTag("home_profile_icon_button"),
                             contentAlignment = Alignment.Center
@@ -291,7 +252,7 @@ fun HomeScreen(
                     modifier = Modifier
                         .fillMaxSize()
                         .testTag("memories_list"),
-                    contentPadding = PaddingValues(horizontal = 20.dp, vertical = 8.dp),
+                    contentPadding = PaddingValues(start = 20.dp, end = 20.dp, top = 8.dp, bottom = 96.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     // =========================================================
@@ -325,15 +286,18 @@ fun HomeScreen(
                     }
 
                     // =========================================================
-                    // 3. FEATURED DAILY-FOCUS CARD
+                    // 3. FEATURED DAILY-FOCUS CARD (Only when active focus exists)
                     // =========================================================
-                    item {
-                        DailyFocusCard(
-                            onStartFocusSession = {
-                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                showFocusDialog = true
-                            }
-                        )
+                    if (todayFocus != null) {
+                        item {
+                            DailyFocusCard(
+                                memory = todayFocus!!,
+                                onStartFocusSession = {
+                                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                    onStartFocusSession(todayFocus)
+                                }
+                            )
+                        }
                     }
 
                     // =========================================================
@@ -548,7 +512,56 @@ fun HomeScreen(
                                 }
                             }
 
-                            Spacer(modifier = Modifier.height(6.dp))
+                            Spacer(modifier = Modifier.height(10.dp))
+
+                            // Memory States: Needs action, In progress, Saved for later, Completed
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .horizontalScroll(rememberScrollState()),
+                                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = "STATE:",
+                                    fontFamily = PlusJakartaSansFamily,
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    letterSpacing = 0.8.sp,
+                                    color = LaterTextMuted,
+                                    modifier = Modifier.padding(end = 2.dp)
+                                )
+
+                                memoryStates.forEach { state ->
+                                    val isSelected = state.equals(selectedStateFilter, ignoreCase = true)
+                                    Box(
+                                        modifier = Modifier
+                                            .clip(RoundedCornerShape(6.dp))
+                                            .background(if (isSelected) LaterInkPrimary else LaterCardBg)
+                                            .border(
+                                                width = 1.dp,
+                                                color = if (isSelected) LaterInkPrimary else LaterBorderSubtle,
+                                                shape = RoundedCornerShape(6.dp)
+                                            )
+                                            .clickable {
+                                                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                                                viewModel.selectStateFilter(state)
+                                            }
+                                            .padding(horizontal = 9.dp, vertical = 4.dp)
+                                            .testTag("state_tab_$state")
+                                    ) {
+                                        Text(
+                                            text = state,
+                                            fontFamily = PlusJakartaSansFamily,
+                                            fontSize = 11.5.sp,
+                                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
+                                            color = if (isSelected) Color.White else LaterSecondaryText
+                                        )
+                                    }
+                                }
+                            }
+
+                            Spacer(modifier = Modifier.height(8.dp))
 
                             // Subtle divider
                             Box(
@@ -565,68 +578,151 @@ fun HomeScreen(
                     // =========================================================
                     if (memories.isEmpty()) {
                         item {
+                            val isFilteringOrSearching = searchQuery.isNotBlank() || selectedCategory != null || selectedStateFilter != "All"
+
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(horizontal = 16.dp, vertical = 40.dp),
+                                    .padding(horizontal = 16.dp, vertical = 32.dp),
                                 contentAlignment = Alignment.Center
                             ) {
-                                Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    modifier = Modifier.padding(vertical = 16.dp)
-                                ) {
-                                    LaterLogoMark(
-                                        size = 32.dp,
-                                        tint = LaterTerracotta,
-                                        foldTint = LaterDarkAccent,
-                                        cutoutColor = Color(0xFFFCFAF5)
-                                    )
+                                if (isFilteringOrSearching) {
+                                    // Search / filter no-results state: keep FAB visible, no second save button, secondary text action only
+                                    Column(
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        modifier = Modifier.padding(vertical = 16.dp)
+                                    ) {
+                                        LaterLogoMark(
+                                            size = 32.dp,
+                                            tint = LaterTerracotta,
+                                            foldTint = LaterDarkAccent,
+                                            cutoutColor = Color(0xFFFCFAF5)
+                                        )
 
-                                    Spacer(modifier = Modifier.height(18.dp))
+                                        Spacer(modifier = Modifier.height(18.dp))
 
-                                    Text(
-                                        text = if (searchQuery.isNotBlank()) "NO MATCHING MEMORIES" else "NO SAVED MEMORIES YET",
-                                        style = LaterTypographyTokens.emptyHeadline
-                                    )
+                                        Text(
+                                            text = "NO MATCHING MEMORIES",
+                                            style = LaterTypographyTokens.emptyHeadline
+                                        )
 
-                                    Spacer(modifier = Modifier.height(8.dp))
+                                        Spacer(modifier = Modifier.height(8.dp))
 
-                                    Text(
-                                        text = if (searchQuery.isNotBlank()) {
-                                            "No entries match “$searchQuery”. Search by the reason why you saved it."
-                                        } else {
-                                            "Capture links, notes, or references along with why they matter. Turn them into action later."
-                                        },
-                                        style = LaterTypographyTokens.emptySubtitle,
-                                        textAlign = TextAlign.Center
-                                    )
+                                        Text(
+                                            text = if (searchQuery.isNotBlank()) {
+                                                "No entries match “$searchQuery”. Search by the reason why you saved it."
+                                            } else {
+                                                "No entries match the selected filters."
+                                            },
+                                            style = LaterTypographyTokens.emptySubtitle,
+                                            textAlign = TextAlign.Center
+                                        )
 
-                                    Spacer(modifier = Modifier.height(24.dp))
+                                        Spacer(modifier = Modifier.height(20.dp))
 
-                                    Box(
-                                        modifier = Modifier
-                                            .clip(RoundedCornerShape(8.dp))
-                                            .border(1.dp, LaterBorder, RoundedCornerShape(8.dp))
-                                            .background(LaterCardBg)
-                                            .clickable {
+                                        TextButton(
+                                            onClick = {
                                                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                                                 if (searchQuery.isNotBlank()) {
                                                     viewModel.clearSearch()
-                                                } else {
-                                                    onNavigateToCapture()
                                                 }
-                                            }
-                                            .padding(horizontal = 22.dp, vertical = 12.dp)
-                                            .testTag("home_empty_action_button")
+                                                viewModel.selectCategory(null)
+                                                viewModel.selectStateFilter("All")
+                                            },
+                                            modifier = Modifier.testTag("home_clear_search_btn")
+                                        ) {
+                                            Text(
+                                                text = if (searchQuery.isNotBlank()) "CLEAR SEARCH" else "CLEAR FILTERS",
+                                                fontFamily = PlusJakartaSansFamily,
+                                                fontSize = 13.5.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                letterSpacing = 1.sp,
+                                                color = LaterTerracotta
+                                            )
+                                        }
+                                    }
+                                } else {
+                                    // Fresh User Mode Empty Memory Shelf
+                                    Column(
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        modifier = Modifier
+                                            .padding(vertical = 16.dp)
+                                            .testTag("memory_shelf_empty_state")
                                     ) {
-                                        Text(
-                                            text = if (searchQuery.isNotBlank()) "CLEAR SEARCH" else "+ SAVE FIRST MEMORY",
-                                            fontFamily = PlusJakartaSansFamily,
-                                            fontSize = 13.5.sp,
-                                            fontWeight = FontWeight.Bold,
-                                            letterSpacing = 1.sp,
-                                            color = LaterTerracotta
+                                        LaterLogoMark(
+                                            size = 36.dp,
+                                            tint = LaterTerracotta,
+                                            foldTint = LaterDarkAccent,
+                                            cutoutColor = Color(0xFFFCFAF5)
                                         )
+
+                                        Spacer(modifier = Modifier.height(18.dp))
+
+                                        Text(
+                                            text = "Your Memory Shelf is empty.",
+                                            fontFamily = NewsreaderFamily,
+                                            fontSize = 24.sp,
+                                            fontWeight = FontWeight.SemiBold,
+                                            color = LaterInkPrimary,
+                                            textAlign = TextAlign.Center
+                                        )
+
+                                        Spacer(modifier = Modifier.height(8.dp))
+
+                                        Text(
+                                            text = "Every saved thing is a promise to your future self.",
+                                            fontFamily = PlusJakartaSansFamily,
+                                            fontSize = 14.sp,
+                                            color = LaterSecondaryText,
+                                            lineHeight = 20.sp,
+                                            textAlign = TextAlign.Center,
+                                            modifier = Modifier.padding(horizontal = 24.dp)
+                                        )
+
+                                        Spacer(modifier = Modifier.height(24.dp))
+
+                                        // Centered empty-state primary button only: “SAVE YOUR FIRST WHY”
+                                        Button(
+                                            onClick = {
+                                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                                onNavigateToCapture()
+                                            },
+                                            modifier = Modifier
+                                                .height(48.dp)
+                                                .testTag("home_empty_action_button"),
+                                            shape = RoundedCornerShape(8.dp),
+                                            colors = ButtonDefaults.buttonColors(
+                                                containerColor = LaterTerracotta,
+                                                contentColor = Color.White
+                                            )
+                                        ) {
+                                            Text(
+                                                text = "SAVE YOUR FIRST WHY",
+                                                fontFamily = PlusJakartaSansFamily,
+                                                fontSize = 12.5.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                letterSpacing = 0.8.sp
+                                            )
+                                        }
+
+                                        Spacer(modifier = Modifier.height(14.dp))
+
+                                        // Secondary text action: “See an example”
+                                        TextButton(
+                                            onClick = {
+                                                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                                                showExamplePreview = true
+                                            },
+                                            modifier = Modifier.testTag("home_see_example_button")
+                                        ) {
+                                            Text(
+                                                text = "See an example",
+                                                fontFamily = PlusJakartaSansFamily,
+                                                fontSize = 13.sp,
+                                                fontWeight = FontWeight.SemiBold,
+                                                color = LaterTextMuted
+                                            )
+                                        }
                                     }
                                 }
                             }
@@ -636,7 +732,11 @@ fun HomeScreen(
                             MemoryCard(
                                 memory = memory,
                                 onClick = { onNavigateToDetail(memory.id) },
-                                onDelete = { viewModel.deleteMemory(memory) }
+                                onDelete = { viewModel.deleteMemory(memory) },
+                                onEdit = { editingMemory = memory },
+                                onSetReminder = { settingReminderMemory = memory },
+                                onArchive = { viewModel.archiveMemory(memory.id) },
+                                onStartFocus = { onStartFocusSession(memory) }
                             )
                         }
                     }
@@ -674,7 +774,6 @@ fun HomeScreen(
                 }
             }
         }
-    }
 
     // Interactive Focus Session Dialog
     if (showFocusDialog) {
@@ -683,107 +782,43 @@ fun HomeScreen(
         )
     }
 
-    // Profile & Archive Philosophy Dialog
-    if (showProfileDialog) {
-        AlertDialog(
-            onDismissRequest = { showProfileDialog = false },
-            containerColor = LaterCardBg,
-            shape = RoundedCornerShape(12.dp),
-            title = {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    LaterLogoMark(
-                        size = 24.dp,
-                        tint = LaterTerracotta,
-                        foldTint = LaterDarkAccent,
-                        cutoutColor = Color(0xFFFCFAF5)
-                    )
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Column {
-                        Text(
-                            text = "LATER ARCHIVE",
-                            fontFamily = PlusJakartaSansFamily,
-                            fontSize = 15.sp,
-                            fontWeight = FontWeight.Black,
-                            letterSpacing = 1.4.sp,
-                            color = LaterInkPrimary
-                        )
-                        Text(
-                            text = "“Save the why. Act when it matters.”",
-                            fontFamily = NewsreaderFamily,
-                            fontSize = 13.sp,
-                            color = LaterTerracotta
-                        )
-                    }
-                }
-            },
-            text = {
-                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                    Text(
-                        text = "LATER is an intentional memory and saved-resource app. It captures why you saved a link, note, product, tutorial, or reference, then helps you turn that memory into appropriate next action.",
-                        fontFamily = NewsreaderFamily,
-                        fontSize = 15.5.sp,
-                        lineHeight = 23.sp,
-                        color = LaterInkPrimary
-                    )
+    // Example Preview Dialog for empty state
+    if (showExamplePreview) {
+        ExamplePreviewDialog(
+            onDismissRequest = { showExamplePreview = false },
+            onCreateOwnMemory = {
+                showExamplePreview = false
+                onNavigateToCapture()
+            }
+        )
+    }
 
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(RoundedCornerShape(8.dp))
-                            .background(LaterPaperBg)
-                            .border(1.dp, LaterBorder, RoundedCornerShape(8.dp))
-                            .padding(12.dp)
-                    ) {
-                        Column {
-                            Text(
-                                text = "ARCHIVE STATUS",
-                                fontFamily = PlusJakartaSansFamily,
-                                fontSize = 11.5.sp,
-                                fontWeight = FontWeight.ExtraBold,
-                                letterSpacing = 1.sp,
-                                color = LaterTerracotta
-                            )
-                            Spacer(modifier = Modifier.height(4.dp))
-                            Text(
-                                text = if (isPro) "Active Pro Member · Unlimited Archive" else "$totalCount / 50 Active Memories",
-                                fontFamily = PlusJakartaSansFamily,
-                                fontSize = 13.5.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = LaterInkPrimary
-                            )
-                            Text(
-                                text = "Today: turn one saved idea into progress.",
-                                fontFamily = PlusJakartaSansFamily,
-                                fontSize = 12.5.sp,
-                                fontWeight = FontWeight.Medium,
-                                color = LaterSecondaryText
-                            )
-                        }
-                    }
-                }
-            },
-            confirmButton = {
-                TextButton(onClick = {
-                    showProfileDialog = false
-                    onNavigateToPaywall()
-                }) {
-                    Text(
-                        text = if (isPro) "Membership Details" else "Upgrade to Pro",
-                        fontFamily = PlusJakartaSansFamily,
-                        fontWeight = FontWeight.Bold,
-                        color = LaterTerracotta
-                    )
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { showProfileDialog = false }) {
-                    Text(
-                        text = "Close",
-                        fontFamily = PlusJakartaSansFamily,
-                        fontWeight = FontWeight.SemiBold,
-                        color = LaterInkPrimary
-                    )
-                }
+    // Edit Memory Dialog
+    val currentEditing = editingMemory
+    if (currentEditing != null) {
+        EditMemoryDialog(
+            memory = currentEditing,
+            onDismissRequest = { editingMemory = null },
+            onSaveEdit = { updated ->
+                viewModel.updateMemory(updated)
+                editingMemory = null
+            }
+        )
+    }
+
+    // Set Reminder Dialog
+    val currentReminder = settingReminderMemory
+    if (currentReminder != null) {
+        SetReminderDialog(
+            memory = currentReminder,
+            onDismissRequest = { settingReminderMemory = null },
+            onSaveReminder = { reminderContext ->
+                viewModel.updateReminder(
+                    memoryId = currentReminder.id,
+                    context = reminderContext,
+                    time = System.currentTimeMillis() + 86400000L
+                )
+                settingReminderMemory = null
             }
         )
     }

@@ -28,6 +28,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material.icons.outlined.Timer
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -200,15 +201,15 @@ fun FocusSessionDialog(
 
                 Spacer(modifier = Modifier.height(14.dp))
 
-                // Timer Controls
+                // Timer Controls: Pause/Play, Stop, Reset
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     // Play / Pause Button
                     Box(
                         modifier = Modifier
-                            .clip(CircleShape)
+                            .clip(RoundedCornerShape(20.dp))
                             .background(LaterTerracotta)
                             .clickable {
                                 haptic.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -218,7 +219,7 @@ fun FocusSessionDialog(
                                 }
                                 isRunning = !isRunning
                             }
-                            .padding(horizontal = 20.dp, vertical = 10.dp)
+                            .padding(horizontal = 16.dp, vertical = 9.dp)
                     ) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(
@@ -229,12 +230,43 @@ fun FocusSessionDialog(
                             )
                             Spacer(modifier = Modifier.width(6.dp))
                             Text(
-                                text = if (isRunning) "PAUSE" else "START TIMER",
+                                text = if (isRunning) "PAUSE" else "START",
                                 fontFamily = PlusJakartaSansFamily,
-                                fontSize = 12.5.sp,
+                                fontSize = 12.sp,
                                 fontWeight = FontWeight.Bold,
                                 letterSpacing = 0.8.sp,
                                 color = Color.White
+                            )
+                        }
+                    }
+
+                    // Stop Button
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(20.dp))
+                            .background(LaterTerracottaLight)
+                            .border(1.dp, LaterTerracotta.copy(alpha = 0.3f), RoundedCornerShape(20.dp))
+                            .clickable {
+                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                isRunning = false
+                                Toast.makeText(context, "Focus session stopped", Toast.LENGTH_SHORT).show()
+                            }
+                            .padding(horizontal = 14.dp, vertical = 9.dp)
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                imageVector = Icons.Default.Stop,
+                                contentDescription = "Stop",
+                                tint = LaterTerracotta,
+                                modifier = Modifier.size(16.dp)
+                            )
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(
+                                text = "STOP",
+                                fontFamily = PlusJakartaSansFamily,
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = LaterTerracotta
                             )
                         }
                     }

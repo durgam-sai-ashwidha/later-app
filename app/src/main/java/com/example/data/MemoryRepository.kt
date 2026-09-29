@@ -4,6 +4,8 @@ import kotlinx.coroutines.flow.Flow
 
 class MemoryRepository(private val dao: MemoryDao) {
     val allMemories: Flow<List<MemoryEntity>> = dao.getAllMemories()
+    val archivedMemories: Flow<List<MemoryEntity>> = dao.getArchivedMemories()
+    val reminders: Flow<List<MemoryEntity>> = dao.getReminders()
     val memoryCount: Flow<Int> = dao.getMemoryCount()
 
     fun search(query: String): Flow<List<MemoryEntity>> {
@@ -16,6 +18,10 @@ class MemoryRepository(private val dao: MemoryDao) {
 
     fun getByCategory(category: String): Flow<List<MemoryEntity>> {
         return dao.getMemoriesByCategory(category)
+    }
+
+    fun getByState(state: String): Flow<List<MemoryEntity>> {
+        return dao.getMemoriesByState(state)
     }
 
     fun getById(id: String): Flow<MemoryEntity?> {
@@ -34,6 +40,18 @@ class MemoryRepository(private val dao: MemoryDao) {
         dao.update(memory.copy(updatedAt = System.currentTimeMillis()))
     }
 
+    suspend fun updateState(id: String, state: String, isCompleted: Boolean) {
+        dao.updateMemoryState(id, state, isCompleted)
+    }
+
+    suspend fun updateReminder(id: String, context: String?, time: Long?) {
+        dao.updateMemoryReminder(id, context, time)
+    }
+
+    suspend fun archive(id: String, isArchived: Boolean = true) {
+        dao.updateArchiveStatus(id, isArchived)
+    }
+
     suspend fun delete(memory: MemoryEntity) {
         dao.delete(memory)
     }
@@ -42,10 +60,23 @@ class MemoryRepository(private val dao: MemoryDao) {
         dao.deleteById(id)
     }
 
-    suspend fun seedSampleMemoriesIfEmpty() {
-        val count = dao.getMemoryCountDirect()
-        if (count == 0) {
-            dao.insertAll(SampleMemories.items)
-        }
+    suspend fun loadDemoWorkspace() {
+        dao.insertAll(SampleMemories.items)
+    }
+
+    suspend fun clearDemoWorkspace() {
+        dao.deleteDemoMemories()
+    }
+
+    suspend fun clearAllMemories() {
+        dao.deleteAllMemories()
+    }
+
+    suspend fun getUserMemoryCount(): Int {
+        return dao.getUserMemoryCountDirect()
+    }
+
+    suspend fun getDemoMemoryCount(): Int {
+        return dao.getDemoMemoryCountDirect()
     }
 }
