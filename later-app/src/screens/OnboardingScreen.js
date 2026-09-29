@@ -38,10 +38,6 @@ const VALUE_SLIDES = [
 ];
 
 export default function OnboardingScreen({ navigation }) {
-  // Step 0: Dramatic Hook
-  // Step 1: Value Slides (0, 1, 2)
-  // Step 2: DNA Quiz
-  // Step 3: DNA Summary
   const [currentStep, setCurrentStep] = useState(0);
   const [slideIndex, setSlideIndex] = useState(0);
 
@@ -158,7 +154,7 @@ export default function OnboardingScreen({ navigation }) {
             You saved 50 React tutorials.
           </Animated.Text>
           <Animated.Text
-            style={[styles.dramaticText, { opacity: fadeAnim2, marginTop: 24 }]}
+            style={[styles.dramaticText, { opacity: fadeAnim2, marginTop: 20 }]}
           >
             You built 0 things.
           </Animated.Text>
@@ -166,7 +162,7 @@ export default function OnboardingScreen({ navigation }) {
             style={[
               styles.dramaticText,
               styles.dramaticHighlight,
-              { opacity: fadeAnim3, marginTop: 24 },
+              { opacity: fadeAnim3, marginTop: 20 },
             ]}
           >
             You're stuck in tutorial hell.
@@ -178,7 +174,7 @@ export default function OnboardingScreen({ navigation }) {
             title="Get Started →"
             variant="primary"
             onPress={() => setCurrentStep(1)}
-            textStyle={{ fontSize: 20 }}
+            textStyle={{ fontSize: 18 }}
           />
         </Animated.View>
       </GradientView>
@@ -227,7 +223,7 @@ export default function OnboardingScreen({ navigation }) {
               title={isLastSlide ? 'Take DNA Quiz →' : 'Continue →'}
               variant="primary"
               onPress={handleNextSlide}
-              textStyle={{ fontSize: 19 }}
+              textStyle={{ fontSize: 18 }}
             />
 
             {!isLastSlide && (
@@ -294,12 +290,12 @@ export default function OnboardingScreen({ navigation }) {
           </GradientView>
         </View>
 
-        <View style={{ marginTop: 32 }}>
+        <View style={{ marginTop: 28 }}>
           <PremiumButton
             title="Start My 90-Day Journey →"
             variant="primary"
             onPress={handleStartPlan}
-            textStyle={{ fontSize: 19 }}
+            textStyle={{ fontSize: 18 }}
           />
         </View>
       </View>
@@ -312,7 +308,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 28,
+    paddingHorizontal: 24,
   },
   step0Content: {
     alignItems: 'center',
@@ -320,35 +316,35 @@ const styles = StyleSheet.create({
   },
   dramaticText: {
     color: COLORS.white,
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: '800',
     textAlign: 'center',
-    lineHeight: 42,
-    letterSpacing: -1,
+    lineHeight: 34,
+    letterSpacing: -0.5,
   },
   dramaticHighlight: {
     color: COLORS.primaryLight,
   },
   step0ButtonContainer: {
     position: 'absolute',
-    bottom: 48,
+    bottom: 44,
     width: '100%',
-    paddingHorizontal: 28,
+    paddingHorizontal: 24,
   },
   screenContainer: {
     flex: 1,
     backgroundColor: COLORS.background,
   },
   contentPadding: {
-    padding: 24,
+    padding: 22,
     flex: 1,
   },
   dotsRow: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 8,
-    marginBottom: 24,
+    marginTop: 6,
+    marginBottom: 20,
   },
   dot: {
     height: 8,
@@ -366,99 +362,96 @@ const styles = StyleSheet.create({
   slideCardWrapper: {
     flex: 1,
     borderRadius: BORDER_RADIUS.card,
-    marginBottom: 24,
+    marginBottom: 20,
   },
   slideCardGradient: {
     flex: 1,
     borderRadius: BORDER_RADIUS.card,
-    padding: 32,
+    padding: 26,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: 'rgba(139, 0, 0, 0.1)',
+    borderWidth: 1.5,
+    borderColor: 'rgba(139, 0, 0, 0.12)',
   },
   slideIcon: {
-    fontSize: 72,
-    marginBottom: 24,
+    fontSize: 60,
+    marginBottom: 18,
   },
   slideTitle: {
     color: COLORS.primary,
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: '800',
     textAlign: 'center',
-    letterSpacing: -1,
-    marginBottom: 16,
+    letterSpacing: -0.5,
+    marginBottom: 12,
   },
   slideSubtitle: {
     color: COLORS.text,
-    fontSize: 18,
-    lineHeight: 28,
+    fontSize: 17,
+    lineHeight: 26,
     textAlign: 'center',
-    fontWeight: '500',
-    marginBottom: 16,
+    fontWeight: '700',
+    marginBottom: 12,
   },
   slideTagline: {
     color: COLORS.progress,
     fontSize: 16,
     lineHeight: 24,
     textAlign: 'center',
-    fontWeight: '700',
+    fontWeight: '800',
   },
   sliderFooter: {
-    paddingBottom: 16,
+    paddingBottom: 14,
   },
   skipButton: {
-    marginTop: 16,
+    marginTop: 14,
     alignItems: 'center',
   },
   skipText: {
     color: COLORS.text,
     fontSize: 15,
-    fontWeight: '600',
-    opacity: 0.75,
+    fontWeight: '800',
   },
   headerTitle: {
     color: COLORS.text,
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: '800',
-    letterSpacing: -1,
+    letterSpacing: -0.5,
     marginBottom: 8,
   },
   headerSubtitle: {
     color: COLORS.text,
-    fontSize: 18,
-    fontWeight: '500',
-    opacity: 0.85,
-    marginBottom: 32,
+    fontSize: 16,
+    fontWeight: '700',
+    marginBottom: 24,
   },
   dnaCardWrapper: {
     borderRadius: BORDER_RADIUS.card,
-    marginTop: 20,
+    marginTop: 16,
   },
   dnaCardGradient: {
     borderRadius: BORDER_RADIUS.card,
-    padding: 28,
+    padding: 24,
     alignItems: 'center',
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderColor: 'rgba(139, 0, 0, 0.2)',
   },
   dnaIcon: {
-    fontSize: 64,
+    fontSize: 54,
   },
   dnaSummary: {
     color: COLORS.primary,
-    fontSize: 22,
-    fontWeight: '700',
-    marginTop: 20,
+    fontSize: 19,
+    fontWeight: '800',
+    marginTop: 16,
     textAlign: 'center',
-    letterSpacing: -0.4,
+    letterSpacing: -0.3,
   },
   dnaSub: {
     color: COLORS.text,
-    fontSize: 18,
-    fontWeight: '500',
-    marginTop: 14,
+    fontSize: 16,
+    fontWeight: '700',
+    marginTop: 12,
     textAlign: 'center',
-    opacity: 0.9,
   },
 });

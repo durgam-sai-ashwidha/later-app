@@ -12,7 +12,6 @@ try {
 export default function ProgressWheel({ progress = 0, size = 140, strokeWidth = 10, color = COLORS.primary }) {
   const Svg = SvgPkg?.Svg || SvgPkg?.default?.Svg;
   const Circle = SvgPkg?.Circle || SvgPkg?.default?.Circle;
-  const SvgText = SvgPkg?.Text || SvgPkg?.default?.Text;
 
   const clampedProgress = Math.min(100, Math.max(0, Math.round(progress)));
   const radius = (size - strokeWidth) / 2;
@@ -60,7 +59,7 @@ export default function ProgressWheel({ progress = 0, size = 140, strokeWidth = 
           <Text style={[styles.progressNumber, { color }]}>
             {clampedProgress}%
           </Text>
-          <Text style={styles.progressLabel}>completed</Text>
+          <Text style={styles.progressLabel}>COMPLETED</Text>
         </View>
       </View>
     );
@@ -72,7 +71,7 @@ export default function ProgressWheel({ progress = 0, size = 140, strokeWidth = 
       <Text style={[styles.progressNumber, { color }]}>
         {clampedProgress}%
       </Text>
-      <Text style={styles.progressLabel}>completed</Text>
+      <Text style={styles.progressLabel}>COMPLETED</Text>
     </View>
   );
 }
@@ -82,7 +81,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative',
-    marginVertical: 16,
+    marginVertical: 14,
   },
   centerTextOverlay: {
     ...StyleSheet.absoluteFillObject,
@@ -90,23 +89,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   progressNumber: {
-    fontSize: 26,
+    fontSize: 24,
     fontWeight: '800',
-    letterSpacing: -0.5,
+    letterSpacing: -0.4,
   },
   progressLabel: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#8A8D9F',
+    fontSize: 13,
+    fontWeight: '800',
+    color: COLORS.text,
     marginTop: 2,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
+    letterSpacing: 0.6,
   },
   fallbackCircle: {
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#FFFFFF',
-    marginVertical: 16,
+    marginVertical: 14,
     alignSelf: 'center',
   },
 });

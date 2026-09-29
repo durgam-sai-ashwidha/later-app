@@ -17,7 +17,7 @@ export default function BeforeAfterComparison({ days = 5, projectsBuilt = 0, pro
         </View>
       </View>
 
-      <PremiumDivider type="list" style={{ marginVertical: 18 }} />
+      <PremiumDivider type="list" style={{ marginVertical: 16 }} />
 
       <View style={[styles.section, styles.afterSection]}>
         <Text style={styles.afterHeader}>After {days} days with LATER:</Text>
@@ -35,13 +35,13 @@ export default function BeforeAfterComparison({ days = 5, projectsBuilt = 0, pro
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 28,
+    marginTop: 24,
     width: '100%',
     backgroundColor: COLORS.white,
-    padding: 24,
+    padding: 22,
     borderRadius: 16,
-    borderWidth: 1,
-    borderColor: 'rgba(139, 0, 0, 0.1)',
+    borderWidth: 1.5,
+    borderColor: 'rgba(139, 0, 0, 0.12)',
   },
   section: {
     marginBottom: 4,
@@ -51,31 +51,31 @@ const styles = StyleSheet.create({
   },
   beforeHeader: {
     color: COLORS.text,
-    fontSize: 22,
-    fontWeight: '700',
-    letterSpacing: -0.4,
+    fontSize: 19,
+    fontWeight: '800',
+    letterSpacing: -0.3,
   },
   afterHeader: {
     color: COLORS.primary,
-    fontSize: 22,
+    fontSize: 19,
     fontWeight: '800',
-    letterSpacing: -0.4,
+    letterSpacing: -0.3,
   },
   list: {
-    marginLeft: 16,
-    marginTop: 12,
+    marginLeft: 12,
+    marginTop: 10,
   },
   listItem: {
     color: COLORS.text,
-    fontSize: 18,
-    lineHeight: 28,
-    fontWeight: '400',
+    fontSize: 16,
+    lineHeight: 25,
+    fontWeight: '700',
   },
   successItem: {
     color: COLORS.progress,
-    fontWeight: '700',
-    textShadowColor: 'rgba(129, 178, 154, 0.35)',
+    fontWeight: '800',
+    textShadowColor: 'rgba(45, 127, 94, 0.25)',
     textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 6,
+    textShadowRadius: 4,
   },
 });

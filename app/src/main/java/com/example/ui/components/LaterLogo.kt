@@ -128,18 +128,18 @@ fun LaterPrimaryLogo(
             Text(
                 text = "LATER",
                 fontFamily = PlusJakartaSansFamily,
-                fontSize = 24.sp,
+                fontSize = 22.sp,
                 fontWeight = FontWeight.Black,
-                letterSpacing = 2.4.sp,
+                letterSpacing = 2.sp,
                 color = LaterInkPrimary
             )
 
             Text(
                 text = "WHY FIRST",
                 fontFamily = PlusJakartaSansFamily,
-                fontSize = 10.sp,
+                fontSize = 12.sp,
                 fontWeight = FontWeight.ExtraBold,
-                letterSpacing = 1.6.sp,
+                letterSpacing = 1.4.sp,
                 color = LaterTerracotta,
                 modifier = Modifier.offset(y = (-1).dp)
             )

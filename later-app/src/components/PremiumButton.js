@@ -39,7 +39,6 @@ export default function PremiumButton({
 
   const isPrimary = variant === 'primary';
   const isWhite = variant === 'white';
-  const isSecondary = variant === 'secondary';
 
   return (
     <TouchableWithoutFeedback
@@ -92,22 +91,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 16,
-    paddingHorizontal: 24,
+    paddingVertical: 15,
+    paddingHorizontal: 22,
     borderRadius: BORDER_RADIUS.button,
   },
   primaryHighlight: {
     borderTopWidth: 1,
-    borderTopColor: 'rgba(255, 255, 255, 0.2)',
+    borderTopColor: 'rgba(255, 255, 255, 0.25)',
   },
   whiteButton: {
     backgroundColor: COLORS.white,
   },
   whiteHighlight: {
     borderTopWidth: 1,
-    borderTopColor: 'rgba(255, 255, 255, 0.8)',
-    borderWidth: 1,
-    borderColor: 'rgba(139, 0, 0, 0.08)',
+    borderTopColor: 'rgba(255, 255, 255, 0.9)',
+    borderWidth: 1.5,
+    borderColor: 'rgba(139, 0, 0, 0.15)',
   },
   secondaryButton: {
     backgroundColor: COLORS.white,
@@ -116,20 +115,20 @@ const styles = StyleSheet.create({
   },
   primaryText: {
     color: COLORS.white,
-    fontSize: 18,
-    fontWeight: '700',
-    letterSpacing: -0.3,
+    fontSize: 17,
+    fontWeight: '800',
+    letterSpacing: -0.2,
   },
   whiteText: {
     color: COLORS.primary,
-    fontSize: 18,
-    fontWeight: '700',
-    letterSpacing: -0.3,
+    fontSize: 17,
+    fontWeight: '800',
+    letterSpacing: -0.2,
   },
   secondaryText: {
     color: COLORS.primary,
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '800',
   },
   iconContainer: {
     marginRight: 8,

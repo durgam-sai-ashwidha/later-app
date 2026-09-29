@@ -76,7 +76,7 @@ fun SplashScreen(
             Text(
                 text = "WHY FIRST",
                 fontFamily = PlusJakartaSansFamily,
-                fontSize = 11.sp,
+                fontSize = 13.sp,
                 fontWeight = FontWeight.ExtraBold,
                 letterSpacing = 2.sp,
                 color = LaterTerracotta

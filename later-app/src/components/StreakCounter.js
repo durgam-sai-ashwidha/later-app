@@ -24,38 +24,38 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   containerSmall: {
-    marginTop: 20,
+    marginTop: 16,
     marginBottom: 8,
   },
   containerLarge: {
-    marginTop: 24,
-    marginBottom: 32,
+    marginTop: 20,
+    marginBottom: 26,
   },
   streakText: {
     color: COLORS.primary,
     fontWeight: '800',
-    letterSpacing: -0.8,
-    textShadowColor: 'rgba(139, 0, 0, 0.25)',
-    textShadowOffset: { width: 0, height: 2 },
-    textShadowRadius: 8,
+    letterSpacing: -0.5,
+    textShadowColor: 'rgba(139, 0, 0, 0.2)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 6,
   },
   streakSmall: {
-    fontSize: 28,
+    fontSize: 22,
   },
   streakLarge: {
-    fontSize: 32,
+    fontSize: 24,
   },
   subText: {
     color: COLORS.text,
-    fontWeight: '500',
+    fontWeight: '700',
     textAlign: 'center',
   },
   subSmall: {
     fontSize: 16,
-    marginTop: 8,
+    marginTop: 6,
   },
   subLarge: {
-    fontSize: 18,
-    marginTop: 10,
+    fontSize: 17,
+    marginTop: 8,
   },
 });

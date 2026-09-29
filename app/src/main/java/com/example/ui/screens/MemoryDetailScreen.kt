@@ -25,6 +25,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.automirrored.filled.OpenInNew
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
@@ -259,6 +260,59 @@ fun MemoryDetailScreen(
                             }
                         }
 
+                        Spacer(modifier = Modifier.height(20.dp))
+
+                        // Next Action Callout
+                        val nextAction = remember(memory) { memory.resolveAction() }
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(com.example.ui.theme.LaterTerracottaLight)
+                                .border(1.dp, LaterTerracotta.copy(alpha = 0.3f), RoundedCornerShape(8.dp))
+                                .clickable {
+                                    if (memory.content.startsWith("http")) {
+                                        try {
+                                            val url = if (!memory.content.startsWith("http")) {
+                                                "https://${memory.content}"
+                                            } else memory.content
+                                            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                                            context.startActivity(browserIntent)
+                                        } catch (_: Exception) {}
+                                    } else {
+                                        Toast.makeText(context, "Action ready: $nextAction", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                                .padding(horizontal = 16.dp, vertical = 13.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Column {
+                                Text(
+                                    text = "NEXT ACTION",
+                                    fontFamily = PlusJakartaSansFamily,
+                                    fontSize = 11.sp,
+                                    fontWeight = FontWeight.ExtraBold,
+                                    letterSpacing = 1.sp,
+                                    color = LaterTerracotta
+                                )
+                                Spacer(modifier = Modifier.height(2.dp))
+                                Text(
+                                    text = nextAction,
+                                    fontFamily = PlusJakartaSansFamily,
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = LaterTerracotta
+                                )
+                            }
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                                contentDescription = null,
+                                tint = LaterTerracotta,
+                                modifier = Modifier.size(18.dp)
+                            )
+                        }
+
                         Spacer(modifier = Modifier.height(24.dp))
 
                         // Hairline divider
@@ -292,10 +346,10 @@ fun MemoryDetailScreen(
                         Text(
                             text = "ORIGINAL SOURCE & CONTENT",
                             fontFamily = PlusJakartaSansFamily,
-                            fontSize = 11.sp,
-                            fontWeight = FontWeight.Bold,
-                            letterSpacing = 1.3.sp,
-                            color = LaterTextMuted
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                            letterSpacing = 1.sp,
+                            color = LaterInkPrimary
                         )
 
                         Spacer(modifier = Modifier.height(8.dp))
@@ -311,9 +365,10 @@ fun MemoryDetailScreen(
                             Text(
                                 text = memory.content,
                                 fontFamily = PlusJakartaSansFamily,
-                                fontSize = 13.5.sp,
+                                fontSize = 14.5.sp,
+                                fontWeight = FontWeight.Medium,
                                 color = LaterInkPrimary,
-                                lineHeight = 20.sp
+                                lineHeight = 22.sp
                             )
                         }
 

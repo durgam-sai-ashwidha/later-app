@@ -56,6 +56,7 @@ import com.example.ui.theme.LaterBorderSubtle
 import com.example.ui.theme.LaterCardBg
 import com.example.ui.theme.LaterInkPrimary
 import com.example.ui.theme.LaterPaperBg
+import com.example.ui.theme.LaterSecondaryText
 import com.example.ui.theme.LaterTerracotta
 import com.example.ui.theme.LaterWarmGray
 import com.example.ui.theme.LaterTextMuted
@@ -240,9 +241,9 @@ fun CaptureScreen(
                     Text(
                         text = "1. WHAT ARE YOU SAVING?",
                         fontFamily = PlusJakartaSansFamily,
-                        fontSize = 11.sp,
+                        fontSize = 13.5.sp,
                         fontWeight = FontWeight.ExtraBold,
-                        letterSpacing = 1.3.sp,
+                        letterSpacing = 1.2.sp,
                         color = LaterInkPrimary
                     )
 
@@ -305,10 +306,10 @@ fun CaptureScreen(
                     Text(
                         text = "TITLE (OPTIONAL)",
                         fontFamily = PlusJakartaSansFamily,
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 1.3.sp,
-                        color = LaterWarmGray
+                        fontSize = 13.5.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        letterSpacing = 1.2.sp,
+                        color = LaterInkPrimary
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))
@@ -350,10 +351,10 @@ fun CaptureScreen(
                     Text(
                         text = "CATEGORY",
                         fontFamily = PlusJakartaSansFamily,
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 1.3.sp,
-                        color = LaterWarmGray
+                        fontSize = 13.5.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        letterSpacing = 1.2.sp,
+                        color = LaterInkPrimary
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))
@@ -378,10 +379,10 @@ fun CaptureScreen(
                                 Text(
                                     text = cat,
                                     fontFamily = PlusJakartaSansFamily,
-                                    fontSize = 12.sp,
-                                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                                    letterSpacing = 1.sp,
-                                    color = if (isSelected) LaterTerracotta else LaterWarmGray
+                                    fontSize = 13.5.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    letterSpacing = 0.8.sp,
+                                    color = if (isSelected) LaterTerracotta else LaterSecondaryText
                                 )
                                 Spacer(modifier = Modifier.height(4.dp))
                                 Box(
@@ -487,10 +488,10 @@ fun CaptureScreen(
                     Text(
                         text = "TITLE",
                         fontFamily = PlusJakartaSansFamily,
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 1.3.sp,
-                        color = LaterWarmGray
+                        fontSize = 13.5.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        letterSpacing = 1.2.sp,
+                        color = LaterInkPrimary
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))
@@ -508,8 +509,8 @@ fun CaptureScreen(
                             onValueChange = { titleInput = it },
                             textStyle = TextStyle(
                                 fontFamily = PlusJakartaSansFamily,
-                                fontSize = 14.5.sp,
-                                fontWeight = FontWeight.Medium,
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.SemiBold,
                                 color = LaterInkPrimary
                             ),
                             modifier = Modifier
@@ -523,10 +524,10 @@ fun CaptureScreen(
                     Text(
                         text = "CATEGORY",
                         fontFamily = PlusJakartaSansFamily,
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 1.3.sp,
-                        color = LaterWarmGray
+                        fontSize = 13.5.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        letterSpacing = 1.2.sp,
+                        color = LaterInkPrimary
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))
@@ -551,10 +552,10 @@ fun CaptureScreen(
                                 Text(
                                     text = cat,
                                     fontFamily = PlusJakartaSansFamily,
-                                    fontSize = 12.sp,
-                                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                                    letterSpacing = 1.sp,
-                                    color = if (isSelected) LaterTerracotta else LaterWarmGray
+                                    fontSize = 13.5.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    letterSpacing = 0.8.sp,
+                                    color = if (isSelected) LaterTerracotta else LaterSecondaryText
                                 )
                                 Spacer(modifier = Modifier.height(4.dp))
                                 Box(
@@ -584,7 +585,7 @@ fun CaptureScreen(
                         Text(
                             text = if (isSavedSuccess) "✓ SAVED TO ARCHIVE" else "SAVE MEMORY",
                             fontFamily = PlusJakartaSansFamily,
-                            fontSize = 14.sp,
+                            fontSize = 15.sp,
                             fontWeight = FontWeight.Bold,
                             letterSpacing = 1.2.sp,
                             color = Color.White

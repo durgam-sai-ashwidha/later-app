@@ -12,7 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import GradientView from './GradientView';
 import PremiumButton from './PremiumButton';
-import { COLORS, BORDER_RADIUS, GRADIENTS } from '../utils/constants';
+import { COLORS, BORDER_RADIUS } from '../utils/constants';
 
 export default function StarterCodeModal({ visible, task, onClose, onDoneBuilding }) {
   const [copied, setCopied] = useState(false);
@@ -60,7 +60,7 @@ export default function StarterCodeModal({ visible, task, onClose, onDoneBuildin
             style={styles.closeButton}
             hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
           >
-            <Ionicons name="close" size={32} color={COLORS.primary} />
+            <Ionicons name="close" size={28} color={COLORS.primary} />
           </TouchableOpacity>
         </GradientView>
 
@@ -115,43 +115,42 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 24,
-    paddingVertical: 24,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(139, 0, 0, 0.1)',
+    paddingHorizontal: 22,
+    paddingVertical: 18,
+    borderBottomWidth: 1.5,
+    borderBottomColor: 'rgba(139, 0, 0, 0.12)',
   },
   headerTitleContainer: {
     flex: 1,
   },
   title: {
     color: COLORS.primary,
-    fontSize: 24,
+    fontSize: 21,
     fontWeight: '800',
-    letterSpacing: -0.5,
+    letterSpacing: -0.4,
   },
   subtitle: {
     color: COLORS.text,
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: '700',
     marginTop: 4,
-    opacity: 0.85,
   },
   closeButton: {
-    padding: 8,
+    padding: 6,
   },
   codeContainer: {
     flex: 1,
     backgroundColor: COLORS.background,
   },
   codeContent: {
-    padding: 24,
+    padding: 20,
   },
   codeWrapper: {
     backgroundColor: COLORS.offWhite,
     borderRadius: 12,
-    padding: 20,
-    borderWidth: 1,
-    borderColor: 'rgba(139, 0, 0, 0.15)',
+    padding: 18,
+    borderWidth: 1.5,
+    borderColor: 'rgba(139, 0, 0, 0.18)',
   },
   codeLine: {
     flexDirection: 'row',
@@ -160,28 +159,29 @@ const styles = StyleSheet.create({
   },
   lineNumber: {
     width: 32,
-    color: 'rgba(139, 0, 0, 0.5)',
+    color: COLORS.primary,
     fontFamily: 'monospace',
     fontSize: 15,
     textAlign: 'right',
-    marginRight: 16,
-    fontWeight: '600',
+    marginRight: 14,
+    fontWeight: '800',
   },
   lineText: {
     flex: 1,
     color: COLORS.text,
     fontFamily: 'monospace',
     fontSize: 15,
-    lineHeight: 24,
+    fontWeight: '600',
+    lineHeight: 23,
   },
   footer: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 24,
-    borderTopWidth: 1,
-    borderTopColor: 'rgba(229, 229, 229, 0.5)',
+    padding: 20,
+    borderTopWidth: 1.5,
+    borderTopColor: 'rgba(229, 229, 229, 0.8)',
     backgroundColor: COLORS.white,
-    gap: 16,
+    gap: 14,
   },
   buttonHalf: {
     flex: 1,

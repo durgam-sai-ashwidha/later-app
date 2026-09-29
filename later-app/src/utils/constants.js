@@ -4,34 +4,34 @@ export const COLORS = {
   primary: '#8B0000',
   primaryLight: '#A00000',
   primaryDark: '#6B0000',
-  text: '#3D405B',
-  subText: '#5A5D7A',
-  progress: '#81B29A',
-  progressLight: '#95C9AB',
+  text: '#22253F',
+  subText: '#3D405B',
+  progress: '#2D7F5E', // High contrast rich forest-sage green
+  progressLight: '#81B29A',
   white: '#FFFFFF',
   offWhite: '#FAFAFA',
   lightGray: '#E5E5E5',
   lighterGray: '#F0F0F0',
-  border: 'rgba(139, 0, 0, 0.1)',
-  red: '#E63946',
+  border: 'rgba(139, 0, 0, 0.15)',
+  red: '#C5222E',
   black: '#000000',
 };
 
 export const DARK_COLORS = {
   background: '#121212',
   card: '#1E1E1E',
-  primary: '#C53030', // Vibrant contrast wine/red
-  primaryLight: '#E53E3E',
-  primaryDark: '#8B0000',
+  primary: '#E53E3E', // Bright vivid crimson for dark mode
+  primaryLight: '#FC8181',
+  primaryDark: '#9B2C2C',
   text: '#FFFFFF',
-  subText: '#B0B0B0',
-  progress: '#81B29A',
-  progressLight: '#95C9AB',
+  subText: '#E2E8F0',
+  progress: '#48BB78',
+  progressLight: '#9AE6B4',
   white: '#1E1E1E',
   offWhite: '#252525',
   lightGray: '#333333',
   lighterGray: '#2A2A2A',
-  border: 'rgba(255, 255, 255, 0.15)',
+  border: 'rgba(255, 255, 255, 0.2)',
   red: '#FF4D4D',
   black: '#000000',
 };
@@ -55,10 +55,10 @@ export const BORDER_RADIUS = {
 };
 
 export const FONTS = {
-  heading: { fontSize: 32, fontWeight: '800', letterSpacing: -1 },
-  subheading: { fontSize: 22, fontWeight: '700', letterSpacing: -0.5 },
-  body: { fontSize: 18, fontWeight: '400', letterSpacing: 0 },
-  small: { fontSize: 16, fontWeight: '500', letterSpacing: 0.2 },
+  heading: { fontSize: 24, fontWeight: '800', letterSpacing: -0.5 },
+  subheading: { fontSize: 19, fontWeight: '700', letterSpacing: -0.3 },
+  body: { fontSize: 16, fontWeight: '600', letterSpacing: 0 },
+  small: { fontSize: 15, fontWeight: '700', letterSpacing: 0.1 },
 };
 
 export const SHADOWS = {
@@ -95,7 +95,7 @@ export const SHADOWS = {
 export const GRADIENTS = {
   primary: ['#8B0000', '#A00000'],
   primaryDark: ['#8B0000', '#6B0000'],
-  progress: ['#81B29A', '#95C9AB'],
+  progress: ['#2D7F5E', '#81B29A'],
   card: ['#FFFFFF', '#F9F9F9'],
   cardDark: ['#1E1E1E', '#252525'],
   background: ['#F4F1DE', '#FFFFFF'],

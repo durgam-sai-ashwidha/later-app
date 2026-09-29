@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   Alert,
-  ActivityIndicator,
   Animated,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -91,7 +90,7 @@ export default function PaywallScreen({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]}>
       {/* Top close button */}
       <View style={styles.topBar}>
         <TouchableOpacity
@@ -99,7 +98,7 @@ export default function PaywallScreen({ navigation }) {
           hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
           style={styles.closeBtn}
         >
-          <Ionicons name="close" size={28} color={COLORS.text} />
+          <Ionicons name="close" size={28} color={colors.text} />
         </TouchableOpacity>
       </View>
 
@@ -111,73 +110,85 @@ export default function PaywallScreen({ navigation }) {
         <Animated.Text style={[styles.warningIcon, { transform: [{ scale: pulseAnim }] }]}>
           ⚠️
         </Animated.Text>
-        <Text style={styles.warningTitle}>⚠️ YOUR PROGRESS IS AT RISK</Text>
+        <Text style={[styles.warningTitle, { color: colors.primary }]}>
+          ⚠️ YOUR PROGRESS IS AT RISK
+        </Text>
 
         {/* Elevated Progress Card */}
         <View style={[styles.summaryCardWrapper, SHADOWS.card]}>
           <GradientView
-            colors={GRADIENTS.card}
+            colors={isDark ? GRADIENTS.cardDark : GRADIENTS.card}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
-            style={styles.summaryCardGradient}
+            style={[
+              styles.summaryCardGradient,
+              { borderColor: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(139, 0, 0, 0.15)' },
+            ]}
           >
-            <Text style={styles.summaryText}>You've built 7 projects.</Text>
-            <Text style={styles.summaryText}>You're 7% done.</Text>
-            <Text style={styles.streakText}>🔥 7-DAY STREAK</Text>
-            <Text style={styles.trialText}>In 24 hours, your free trial ends.</Text>
+            <Text style={[styles.summaryText, { color: colors.text }]}>You've built 7 projects.</Text>
+            <Text style={[styles.summaryText, { color: colors.text }]}>You're 7% done.</Text>
+            <Text style={[styles.streakText, { color: colors.primary }]}>🔥 7-DAY STREAK</Text>
+            <Text style={[styles.trialText, { color: colors.text }]}>In 24 hours, your free trial ends.</Text>
           </GradientView>
         </View>
 
         {/* Loss Aversion List */}
-        <Text style={styles.lossHeader}>If you don't upgrade:</Text>
+        <Text style={[styles.lossHeader, { color: colors.text }]}>If you don't upgrade:</Text>
         <View style={styles.lossList}>
-          <Text style={styles.lossItem}>❌ You'll lose your 7-day streak</Text>
-          <Text style={styles.lossItem}>❌ You'll lose your progress (7% done)</Text>
-          <Text style={styles.lossItem}>❌ You'll go back to tutorial hell</Text>
+          <Text style={[styles.lossItem, { color: colors.primary }]}>❌ You'll lose your 7-day streak</Text>
+          <Text style={[styles.lossItem, { color: colors.primary }]}>❌ You'll lose your progress (7% done)</Text>
+          <Text style={[styles.lossItem, { color: colors.primary }]}>❌ You'll go back to tutorial hell</Text>
         </View>
 
         {/* Emotional Message */}
-        <Text style={styles.emotionalText}>Don't lose everything you've built.</Text>
+        <Text style={[styles.emotionalText, { color: colors.text }]}>
+          Don't lose everything you've built.
+        </Text>
 
         {/* Pro Features Section */}
-        <Text style={styles.proHeader}>Pro unlocks:</Text>
+        <Text style={[styles.proHeader, { color: colors.text }]}>Pro unlocks:</Text>
         <View style={styles.featureList}>
           <View style={styles.featureRow}>
             <Text style={styles.checkIcon}>✅</Text>
-            <Text style={styles.featureText}>Unlimited coaching</Text>
+            <Text style={[styles.featureText, { color: colors.text }]}>Unlimited coaching</Text>
           </View>
           <View style={styles.featureRow}>
             <Text style={styles.checkIcon}>✅</Text>
-            <Text style={styles.featureText}>Unlimited 90-day plans</Text>
+            <Text style={[styles.featureText, { color: colors.text }]}>Unlimited 90-day plans</Text>
           </View>
           <View style={styles.featureRow}>
             <Text style={styles.checkIcon}>✅</Text>
-            <Text style={styles.featureText}>Keep your progress</Text>
+            <Text style={[styles.featureText, { color: colors.text }]}>Keep your progress</Text>
           </View>
           <View style={styles.featureRow}>
             <Text style={styles.checkIcon}>✅</Text>
-            <Text style={styles.featureText}>Keep your streak</Text>
+            <Text style={[styles.featureText, { color: colors.text }]}>Keep your streak</Text>
           </View>
         </View>
 
         {/* Price Display */}
         <View style={styles.priceContainer}>
-          <Text style={styles.priceText}>$9.99/month</Text>
-          <Text style={styles.priceSubText}>Billed monthly. Cancel anytime.</Text>
+          <Text style={[styles.priceText, { color: colors.primary }]}>$9.99/month</Text>
+          <Text style={[styles.priceSubText, { color: colors.subText }]}>
+            Billed monthly. Cancel anytime.
+          </Text>
         </View>
 
         {/* Testimonial Card */}
         <View style={[styles.testimonialWrapper, SHADOWS.card]}>
           <GradientView
-            colors={['#F4F1DE', '#FFFFFF']}
+            colors={isDark ? GRADIENTS.cardDark : ['#F4F1DE', '#FFFFFF']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
-            style={styles.testimonialGradient}
+            style={[
+              styles.testimonialGradient,
+              { borderLeftColor: colors.primary },
+            ]}
           >
-            <Text style={styles.testimonialQuote}>
+            <Text style={[styles.testimonialQuote, { color: colors.text }]}>
               "I became a React Developer in 90 days. LATER changed my life."
             </Text>
-            <Text style={styles.testimonialAuthor}>
+            <Text style={[styles.testimonialAuthor, { color: colors.primary }]}>
               — Sarah, Software Engineer @ Google
             </Text>
           </GradientView>
@@ -190,12 +201,14 @@ export default function PaywallScreen({ navigation }) {
             variant="primary"
             onPress={handlePurchase}
             disabled={loading}
-            textStyle={{ fontSize: 20 }}
+            textStyle={{ fontSize: 18 }}
           />
         </View>
 
         {/* Footer */}
-        <Text style={styles.footerText}>Cancel anytime. No questions asked.</Text>
+        <Text style={[styles.footerText, { color: colors.subText }]}>
+          Cancel anytime. No questions asked.
+        </Text>
       </ScrollView>
     </SafeAreaView>
   );
@@ -204,10 +217,9 @@ export default function PaywallScreen({ navigation }) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: COLORS.background,
   },
   topBar: {
-    paddingHorizontal: 24,
+    paddingHorizontal: 22,
     paddingTop: 12,
     alignItems: 'flex-end',
   },
@@ -218,153 +230,138 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentContainer: {
-    padding: 24,
-    paddingTop: 12,
-    paddingBottom: 48,
+    padding: 22,
+    paddingTop: 8,
+    paddingBottom: 40,
   },
   warningIcon: {
-    fontSize: 64,
+    fontSize: 50,
     textAlign: 'center',
-    marginTop: 20,
+    marginTop: 10,
     textShadowColor: 'rgba(139, 0, 0, 0.3)',
-    textShadowOffset: { width: 0, height: 8 },
-    textShadowRadius: 24,
+    textShadowOffset: { width: 0, height: 4 },
+    textShadowRadius: 16,
   },
   warningTitle: {
-    color: COLORS.primary,
-    fontSize: 32,
+    fontSize: 22,
     fontWeight: '800',
     textAlign: 'center',
-    marginTop: 24,
-    letterSpacing: -1,
+    marginTop: 16,
+    letterSpacing: -0.4,
   },
   summaryCardWrapper: {
     borderRadius: BORDER_RADIUS.card,
-    marginTop: 28,
+    marginTop: 20,
   },
   summaryCardGradient: {
-    padding: 28,
+    padding: 22,
     borderRadius: BORDER_RADIUS.card,
-    borderWidth: 1,
-    borderColor: 'rgba(139, 0, 0, 0.15)',
+    borderWidth: 1.5,
   },
   summaryText: {
-    color: COLORS.text,
-    fontSize: 18,
-    lineHeight: 26,
-    fontWeight: '400',
+    fontSize: 16,
+    lineHeight: 24,
+    fontWeight: '700',
   },
   streakText: {
-    color: COLORS.primary,
-    fontSize: 22,
-    fontWeight: '800',
-    marginTop: 14,
-    letterSpacing: -0.4,
-  },
-  trialText: {
-    color: COLORS.text,
-    fontSize: 18,
-    marginTop: 14,
-    fontWeight: '600',
-  },
-  lossHeader: {
-    color: COLORS.text,
-    fontSize: 22,
-    fontWeight: '800',
-    marginTop: 32,
-    letterSpacing: -0.5,
-  },
-  lossList: {
-    marginLeft: 16,
-    marginTop: 16,
-  },
-  lossItem: {
-    color: COLORS.primary,
-    fontSize: 18,
-    marginBottom: 10,
-    fontWeight: '500',
-  },
-  emotionalText: {
-    color: COLORS.text,
     fontSize: 20,
     fontWeight: '800',
+    marginTop: 10,
+    letterSpacing: -0.3,
+  },
+  trialText: {
+    fontSize: 16,
+    marginTop: 10,
+    fontWeight: '800',
+  },
+  lossHeader: {
+    fontSize: 19,
+    fontWeight: '800',
+    marginTop: 24,
+    letterSpacing: -0.3,
+  },
+  lossList: {
+    marginLeft: 12,
+    marginTop: 12,
+  },
+  lossItem: {
+    fontSize: 16,
+    marginBottom: 8,
+    fontWeight: '800',
+  },
+  emotionalText: {
+    fontSize: 18,
+    fontWeight: '800',
     textAlign: 'center',
-    marginTop: 28,
-    letterSpacing: -0.5,
+    marginTop: 20,
+    letterSpacing: -0.3,
   },
   proHeader: {
-    color: COLORS.text,
-    fontSize: 22,
+    fontSize: 19,
     fontWeight: '800',
-    marginTop: 36,
-    letterSpacing: -0.5,
+    marginTop: 24,
+    letterSpacing: -0.3,
   },
   featureList: {
-    marginTop: 16,
+    marginTop: 12,
   },
   featureRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: 12,
   },
   checkIcon: {
-    fontSize: 24,
-    textShadowColor: 'rgba(129, 178, 154, 0.4)',
-    textShadowOffset: { width: 0, height: 2 },
-    textShadowRadius: 8,
+    fontSize: 20,
+    textShadowColor: 'rgba(45, 127, 94, 0.4)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 6,
   },
   featureText: {
-    color: COLORS.text,
-    fontSize: 18,
-    fontWeight: '500',
-    marginLeft: 14,
+    fontSize: 16,
+    fontWeight: '800',
+    marginLeft: 12,
   },
   priceContainer: {
     alignItems: 'center',
-    marginTop: 36,
+    marginTop: 24,
   },
   priceText: {
-    color: COLORS.primary,
-    fontSize: 40,
+    fontSize: 28,
     fontWeight: '800',
-    letterSpacing: -1,
+    letterSpacing: -0.5,
   },
   priceSubText: {
-    color: COLORS.text,
-    fontSize: 16,
-    marginTop: 12,
-    fontWeight: '400',
+    fontSize: 15,
+    marginTop: 6,
+    fontWeight: '700',
   },
   testimonialWrapper: {
     borderRadius: BORDER_RADIUS.card,
-    marginTop: 36,
+    marginTop: 24,
   },
   testimonialGradient: {
-    padding: 24,
+    padding: 20,
     borderRadius: 12,
     borderLeftWidth: 4,
-    borderLeftColor: COLORS.primary,
   },
   testimonialQuote: {
-    color: COLORS.text,
-    fontSize: 18,
+    fontSize: 16,
     fontStyle: 'italic',
-    lineHeight: 26,
+    fontWeight: '700',
+    lineHeight: 24,
   },
   testimonialAuthor: {
-    color: COLORS.primary,
-    fontSize: 16,
-    fontWeight: '700',
-    marginTop: 14,
+    fontSize: 15,
+    fontWeight: '800',
+    marginTop: 10,
   },
   ctaWrapper: {
-    marginTop: 36,
+    marginTop: 24,
   },
   footerText: {
-    color: COLORS.text,
     fontSize: 14,
     textAlign: 'center',
-    marginTop: 24,
-    opacity: 0.7,
+    marginTop: 18,
+    fontWeight: '700',
   },
 });

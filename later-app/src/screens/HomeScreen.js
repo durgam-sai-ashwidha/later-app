@@ -193,11 +193,11 @@ export default function HomeScreen({ navigation }) {
     return (
       <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]}>
         <View style={styles.contentContainer}>
-          <SkeletonLoader width={220} height={36} borderRadius={8} style={{ marginBottom: 12 }} />
-          <SkeletonLoader width={160} height={20} borderRadius={6} style={{ marginBottom: 32 }} />
-          <SkeletonLoader width="100%" height={160} borderRadius={16} style={{ marginBottom: 28 }} />
-          <SkeletonLoader width="100%" height={200} borderRadius={16} style={{ marginBottom: 28 }} />
-          <SkeletonLoader width="100%" height={14} borderRadius={10} style={{ marginBottom: 20 }} />
+          <SkeletonLoader width={200} height={28} borderRadius={8} style={{ marginBottom: 10 }} />
+          <SkeletonLoader width={160} height={18} borderRadius={6} style={{ marginBottom: 24 }} />
+          <SkeletonLoader width="100%" height={150} borderRadius={16} style={{ marginBottom: 24 }} />
+          <SkeletonLoader width="100%" height={180} borderRadius={16} style={{ marginBottom: 24 }} />
+          <SkeletonLoader width="100%" height={14} borderRadius={10} style={{ marginBottom: 18 }} />
         </View>
       </SafeAreaView>
     );
@@ -207,23 +207,23 @@ export default function HomeScreen({ navigation }) {
   if (error) {
     return (
       <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background, justifyContent: 'center', alignItems: 'center', padding: 24 }]}>
-        <Text style={{ fontSize: 56, marginBottom: 16 }}>⚠️</Text>
-        <Text style={{ fontSize: 24, fontWeight: '800', color: colors.primary, textAlign: 'center', marginBottom: 8 }}>
+        <Text style={{ fontSize: 50, marginBottom: 14 }}>⚠️</Text>
+        <Text style={{ fontSize: 22, fontWeight: '800', color: colors.primary, textAlign: 'center', marginBottom: 8 }}>
           Something went wrong
         </Text>
-        <Text style={{ fontSize: 16, color: colors.text, textAlign: 'center', marginBottom: 24, lineHeight: 22 }}>
+        <Text style={{ fontSize: 16, fontWeight: '700', color: colors.text, textAlign: 'center', marginBottom: 20, lineHeight: 22 }}>
           {error} Don't worry, your progress is safe locally.
         </Text>
         <TouchableOpacity
           onPress={() => loadData(true)}
           style={{
             backgroundColor: colors.primary,
-            paddingHorizontal: 32,
+            paddingHorizontal: 28,
             paddingVertical: 14,
             borderRadius: 12,
           }}
         >
-          <Text style={{ color: '#FFFFFF', fontSize: 16, fontWeight: '700' }}>
+          <Text style={{ color: '#FFFFFF', fontSize: 16, fontWeight: '800' }}>
             Try Again 🔄
           </Text>
         </TouchableOpacity>
@@ -234,15 +234,15 @@ export default function HomeScreen({ navigation }) {
   // Empty State
   if (!plan) {
     return (
-      <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background, justifyContent: 'center', alignItems: 'center', padding: 40 }]}>
-        <Text style={{ fontSize: 56, marginBottom: 16 }}>📝</Text>
+      <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background, justifyContent: 'center', alignItems: 'center', padding: 36 }]}>
+        <Text style={{ fontSize: 50, marginBottom: 14 }}>📝</Text>
         <Text style={{ fontSize: 22, fontWeight: '800', color: colors.primary, textAlign: 'center' }}>
           Your plan is being created
         </Text>
-        <Text style={{ fontSize: 16, color: colors.text, textAlign: 'center', marginTop: 10, lineHeight: 24 }}>
+        <Text style={{ fontSize: 16, fontWeight: '700', color: colors.text, textAlign: 'center', marginTop: 10, lineHeight: 24 }}>
           AI is analyzing your Learning DNA and preparing your personalized 90-day roadmap...
         </Text>
-        <ActivityIndicator size="large" color={colors.primary} style={{ marginTop: 24 }} />
+        <ActivityIndicator size="large" color={colors.primary} style={{ marginTop: 20 }} />
       </SafeAreaView>
     );
   }
@@ -315,7 +315,7 @@ export default function HomeScreen({ navigation }) {
             styles.quoteCard,
             {
               backgroundColor: isDark ? '#1E1E1E' : '#FFFFFF',
-              borderColor: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(139, 0, 0, 0.1)',
+              borderColor: isDark ? 'rgba(255, 255, 255, 0.15)' : 'rgba(139, 0, 0, 0.12)',
             },
           ]}
         >
@@ -356,29 +356,28 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentContainer: {
-    padding: 24,
-    paddingBottom: 48,
+    padding: 22,
+    paddingBottom: 40,
   },
   headerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginBottom: 28,
+    marginBottom: 22,
   },
   headerTitle: {
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: '800',
-    letterSpacing: -1,
+    letterSpacing: -0.5,
   },
   headerSub: {
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: '700',
     marginTop: 4,
-    opacity: 0.9,
   },
   proBadge: {
     paddingHorizontal: 16,
-    paddingVertical: 6,
+    paddingVertical: 7,
     borderRadius: 20,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -386,28 +385,27 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 4,
     marginLeft: 12,
-    marginTop: 4,
+    marginTop: 2,
   },
   proBadgeText: {
     color: '#FFFFFF',
     fontWeight: '800',
-    fontSize: 13,
+    fontSize: 14,
     letterSpacing: 0.5,
   },
   bottomStats: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 20,
+    marginBottom: 16,
   },
   bottomStatsText: {
-    fontSize: 18,
-    fontWeight: '600',
-    opacity: 0.85,
+    fontSize: 17,
+    fontWeight: '800',
   },
   quoteCard: {
     padding: 20,
     borderRadius: 14,
-    borderWidth: 1,
+    borderWidth: 1.5,
     alignItems: 'center',
     marginTop: 8,
   },
@@ -416,14 +414,15 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   quoteText: {
-    fontSize: 15,
+    fontSize: 16,
+    fontWeight: '600',
     fontStyle: 'italic',
-    lineHeight: 22,
+    lineHeight: 24,
     textAlign: 'center',
   },
   quoteAuthor: {
-    fontSize: 13,
-    fontWeight: '700',
+    fontSize: 15,
+    fontWeight: '800',
     marginTop: 8,
     textAlign: 'center',
   },

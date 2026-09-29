@@ -32,6 +32,7 @@ import com.example.ui.theme.LaterBorder
 import com.example.ui.theme.LaterCardBg
 import com.example.ui.theme.LaterDarkAccent
 import com.example.ui.theme.LaterInkPrimary
+import com.example.ui.theme.LaterSecondaryText
 import com.example.ui.theme.LaterTerracotta
 import com.example.ui.theme.LaterTextMuted
 import com.example.ui.theme.LaterTypographyTokens
@@ -76,9 +77,9 @@ fun WhyCaptureInput(
                 Text(
                     text = subLabel,
                     fontFamily = NewsreaderFamily,
-                    fontSize = 13.5.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = LaterWarmGray
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = LaterSecondaryText
                 )
             }
         }
@@ -124,10 +125,10 @@ fun WhyCaptureInput(
                         Text(
                             text = placeholder,
                             fontFamily = NewsreaderFamily,
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Normal,
-                            lineHeight = 1.2.em,
-                            color = LaterTextMuted
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Medium,
+                            lineHeight = 25.sp,
+                            color = LaterWarmGray
                         )
                     }
 

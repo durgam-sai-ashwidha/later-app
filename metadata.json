@@ -1,6 +1,6 @@
 {
   "name": "LATER",
-  "description": "AI learning coach for developers stuck in tutorial hell. Stop hiding, start building.",
+  "description": "Save the why. Act when it matters. An intentional memory and saved-resource archive.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

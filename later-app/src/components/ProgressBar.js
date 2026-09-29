@@ -47,37 +47,37 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   containerSmall: {
-    marginBottom: 24,
+    marginBottom: 20,
   },
   containerLarge: {
-    marginBottom: 32,
+    marginBottom: 26,
   },
   label: {
     color: COLORS.primary,
     fontWeight: '800',
     textAlign: 'center',
-    marginBottom: 10,
-    letterSpacing: -0.5,
+    marginBottom: 8,
+    letterSpacing: -0.3,
   },
   labelSmall: {
-    fontSize: 18,
+    fontSize: 17,
   },
   labelLarge: {
-    fontSize: 24,
+    fontSize: 20,
   },
   track: {
     backgroundColor: '#E5E5E5',
     width: '100%',
     overflow: 'hidden',
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderColor: '#D4D4D4',
   },
   trackSmall: {
-    height: 12,
+    height: 14,
     borderRadius: 10,
   },
   trackLarge: {
-    height: 20,
+    height: 18,
     borderRadius: 12,
   },
   fillWrapper: {

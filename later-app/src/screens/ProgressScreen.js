@@ -27,13 +27,6 @@ import {
   getCompletedDays,
 } from '../utils/storageService';
 
-let Sharing = null;
-try {
-  Sharing = require('expo-sharing');
-} catch (e) {
-  Sharing = null;
-}
-
 export default function ProgressScreen({ navigation }) {
   const { colors, isDark } = useTheme();
 
@@ -115,7 +108,7 @@ export default function ProgressScreen({ navigation }) {
           <TouchableOpacity
             style={[
               styles.shareBtn,
-              { backgroundColor: isDark ? '#252525' : '#FFFFFF', borderColor: 'rgba(139,0,0,0.15)' },
+              { backgroundColor: isDark ? '#252525' : '#FFFFFF', borderColor: 'rgba(139,0,0,0.2)' },
               SHADOWS.button,
             ]}
             onPress={shareProgress}
@@ -130,7 +123,7 @@ export default function ProgressScreen({ navigation }) {
         <View style={styles.wheelSection}>
           <ProgressWheel
             progress={progressPercent}
-            size={160}
+            size={150}
             strokeWidth={12}
             color={colors.primary}
           />
@@ -148,7 +141,7 @@ export default function ProgressScreen({ navigation }) {
             styles.countdownCard,
             {
               backgroundColor: isDark ? '#1E1E1E' : '#FFFFFF',
-              borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(139,0,0,0.1)',
+              borderColor: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(139,0,0,0.15)',
             },
           ]}
         >
@@ -172,7 +165,7 @@ export default function ProgressScreen({ navigation }) {
               end={{ x: 1, y: 1 }}
               style={[
                 styles.statCardGradient,
-                { borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(139, 0, 0, 0.1)' },
+                { borderColor: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(139, 0, 0, 0.15)' },
               ]}
             >
               <Text style={styles.statIcon}>📊</Text>
@@ -191,7 +184,7 @@ export default function ProgressScreen({ navigation }) {
               end={{ x: 1, y: 1 }}
               style={[
                 styles.statCardGradient,
-                { borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(139, 0, 0, 0.1)' },
+                { borderColor: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(139, 0, 0, 0.15)' },
               ]}
             >
               <Text style={styles.statIcon}>📅</Text>
@@ -221,7 +214,7 @@ export default function ProgressScreen({ navigation }) {
               await Haptics.impact('medium');
               navigation.navigate('Home');
             }}
-            textStyle={{ fontSize: 20 }}
+            textStyle={{ fontSize: 18 }}
           />
         </View>
       </ScrollView>
@@ -237,52 +230,53 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentContainer: {
-    padding: 24,
-    paddingBottom: 48,
+    padding: 22,
+    paddingBottom: 40,
   },
   topHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 24,
+    marginBottom: 20,
   },
   headerTitle: {
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: '800',
-    letterSpacing: -1,
+    letterSpacing: -0.5,
   },
   shareBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 14,
-    paddingVertical: 8,
+    paddingHorizontal: 15,
+    paddingVertical: 9,
     borderRadius: BORDER_RADIUS.button,
     borderWidth: 1.5,
   },
   shareBtnText: {
-    fontSize: 14,
-    fontWeight: '700',
+    fontSize: 15,
+    fontWeight: '800',
     marginLeft: 6,
   },
   wheelSection: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 16,
+    marginBottom: 12,
   },
   countdownCard: {
     padding: 18,
     borderRadius: 14,
-    borderWidth: 1,
+    borderWidth: 1.5,
     alignItems: 'center',
-    marginBottom: 28,
+    marginBottom: 24,
   },
   countdownText: {
-    fontSize: 17,
+    fontSize: 16,
+    fontWeight: '700',
     textAlign: 'center',
   },
   urgencyText: {
-    fontSize: 14,
-    fontWeight: '700',
+    fontSize: 15,
+    fontWeight: '800',
     marginTop: 8,
     textAlign: 'center',
   },
@@ -290,34 +284,33 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-    marginTop: 8,
-    gap: 16,
+    marginTop: 4,
+    gap: 14,
   },
   statCardWrapper: {
     flex: 1,
     borderRadius: BORDER_RADIUS.card,
   },
   statCardGradient: {
-    padding: 24,
+    padding: 20,
     borderRadius: BORDER_RADIUS.card,
-    borderWidth: 1,
+    borderWidth: 1.5,
   },
   statIcon: {
-    fontSize: 32,
+    fontSize: 30,
   },
   statLabel: {
     fontSize: 16,
-    fontWeight: '500',
-    marginTop: 10,
-    opacity: 0.85,
+    fontWeight: '800',
+    marginTop: 8,
   },
   statValue: {
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: '800',
-    marginTop: 6,
-    letterSpacing: -0.5,
+    marginTop: 4,
+    letterSpacing: -0.3,
   },
   ctaContainer: {
-    marginTop: 12,
+    marginTop: 10,
   },
 });

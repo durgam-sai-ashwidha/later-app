@@ -50,6 +50,7 @@ import com.example.ui.theme.LaterBorderSubtle
 import com.example.ui.theme.LaterCardBg
 import com.example.ui.theme.LaterInkPrimary
 import com.example.ui.theme.LaterPaperBg
+import com.example.ui.theme.LaterSecondaryText
 import com.example.ui.theme.LaterTerracotta
 import com.example.ui.theme.LaterWarmGray
 import com.example.ui.theme.LaterTextMuted
@@ -198,10 +199,10 @@ fun SearchScreen(
                         Text(
                             text = category,
                             fontFamily = PlusJakartaSansFamily,
-                            fontSize = 12.sp,
-                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                            letterSpacing = 1.sp,
-                            color = if (isSelected) LaterTerracotta else LaterWarmGray
+                            fontSize = 13.5.sp,
+                            fontWeight = FontWeight.Bold,
+                            letterSpacing = 0.8.sp,
+                            color = if (isSelected) LaterTerracotta else LaterSecondaryText
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Box(
@@ -234,9 +235,9 @@ fun SearchScreen(
                         Text(
                             text = if (searchQuery.isBlank()) "SEARCH YOUR ARCHIVE" else "NO MATCHING MEMORIES",
                             fontFamily = PlusJakartaSansFamily,
-                            fontSize = 13.sp,
-                            fontWeight = FontWeight.Bold,
-                            letterSpacing = 1.3.sp,
+                            fontSize = 14.5.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                            letterSpacing = 1.2.sp,
                             color = LaterInkPrimary
                         )
                         Spacer(modifier = Modifier.height(8.dp))
@@ -247,9 +248,10 @@ fun SearchScreen(
                                 "Try searching for the intent, keywords, or the problem you wanted to solve."
                             },
                             fontFamily = NewsreaderFamily,
-                            fontSize = 15.sp,
-                            lineHeight = 22.sp,
-                            color = LaterWarmGray,
+                            fontSize = 16.sp,
+                            lineHeight = 23.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = LaterInkPrimary,
                             textAlign = androidx.compose.ui.text.style.TextAlign.Center
                         )
                     }

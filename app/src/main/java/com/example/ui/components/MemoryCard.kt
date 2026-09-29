@@ -2,8 +2,9 @@ package com.example.ui.components
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.widget.Toast
 import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
@@ -18,14 +19,16 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.OpenInNew
 import androidx.compose.material.icons.filled.DeleteOutline
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -41,6 +44,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
@@ -49,21 +53,32 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.example.data.MemoryEntity
 import com.example.ui.theme.LaterBorder
 import com.example.ui.theme.LaterBorderSubtle
 import com.example.ui.theme.LaterCardBg
 import com.example.ui.theme.LaterInkPrimary
+import com.example.ui.theme.LaterSecondaryText
 import com.example.ui.theme.LaterTerracotta
-import com.example.ui.theme.LaterWarmGray
+import com.example.ui.theme.LaterTerracottaLight
 import com.example.ui.theme.LaterTextMuted
-import com.example.ui.theme.LaterWhyBg
 import com.example.ui.theme.LaterTypographyTokens
+import com.example.ui.theme.LaterWhyBg
 import com.example.ui.theme.NewsreaderFamily
 import com.example.ui.theme.PlusJakartaSansFamily
 
+/**
+ * Editorial Memory Card for LATER Archive.
+ *
+ * Visual & Functional Hierarchy:
+ * 1. Top row: Category and time (e.g. "LEARN · 3 HOURS AGO") + folded corner detail + overflow menu
+ * 2. Next: Resource title in clear, readable sans-serif
+ * 3. Next: Small all-caps label: "WHY YOU SAVED THIS"
+ * 4. Next: Saved reason in high-contrast serif quote (Newsreader), limited to 3-4 lines
+ * 5. Next: Subtle source domain (e.g. "ishadeed.com" or "product research")
+ * 6. Bottom: Specific primary next action with arrow (e.g. "START: REDESIGN DASHBOARD →")
+ */
 @Composable
 fun MemoryCard(
     memory: MemoryEntity,
@@ -78,7 +93,7 @@ fun MemoryCard(
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
 
-    // Tactile micro-interaction on card press
+    // Tactile micro-interaction on press
     val cardScale by animateFloatAsState(
         targetValue = if (isPressed) 0.985f else 1f,
         animationSpec = spring(
@@ -88,24 +103,24 @@ fun MemoryCard(
         label = "card_scale"
     )
 
-    // Subtle responsive offset on the bookmark corner motif
-    val cornerOffset by animateDpAsState(
-        targetValue = if (isPressed) 1.dp else 0.dp,
-        label = "corner_offset"
-    )
+    val statusLabel = remember(memory) {
+        memory.resolveStatus()
+    }
 
     val relativeTime = remember(memory.createdAt) {
-        formatArchiveRelativeTime(memory.createdAt)
+        memory.formatRelativeTime()
     }
 
-    val cleanSource = remember(memory.content) {
-        memory.content
-            .removePrefix("http://")
-            .removePrefix("https://")
-            .removePrefix("www.")
+    val sourceDomain = remember(memory.content) {
+        memory.cleanSourceDomain()
     }
 
-    // Archival index card: restrained 6dp corner, subtle hairline border, minimal paper shadow
+    val actionLabel = remember(memory) {
+        memory.resolveAction()
+    }
+
+    val categoryText = (memory.category ?: "ARCHIVE").uppercase()
+
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -115,14 +130,14 @@ fun MemoryCard(
                 scaleY = cardScale
             }
             .shadow(
-                elevation = 1.dp,
-                shape = RoundedCornerShape(6.dp),
-                ambientColor = LaterInkPrimary.copy(alpha = 0.03f),
-                spotColor = LaterInkPrimary.copy(alpha = 0.05f)
+                elevation = 2.dp,
+                shape = RoundedCornerShape(12.dp),
+                ambientColor = LaterInkPrimary.copy(alpha = 0.05f),
+                spotColor = LaterInkPrimary.copy(alpha = 0.06f)
             )
-            .clip(RoundedCornerShape(6.dp))
+            .clip(RoundedCornerShape(12.dp))
             .background(LaterCardBg)
-            .border(1.dp, LaterBorder, RoundedCornerShape(6.dp))
+            .border(1.dp, LaterBorder, RoundedCornerShape(12.dp))
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
@@ -132,31 +147,41 @@ fun MemoryCard(
                 }
             )
     ) {
-        // Signature Creative Motif: Archival Corner Ribbon with subtle tactile reaction
+        // Small rust-orange folded corner detail in top-right corner
         BookmarkCorner(
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .offset(x = cornerOffset, y = -cornerOffset),
-            size = 14.dp,
+            modifier = Modifier.align(Alignment.TopEnd),
+            size = 18.dp,
             color = LaterTerracotta
         )
 
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 22.dp, vertical = 20.dp)
+                .padding(horizontal = 18.dp, vertical = 18.dp)
         ) {
-            // Top Row: "WHY YOU SAVED THIS" label & options menu
+            // 1. AT THE TOP: Category and status, e.g. “LEARN · NEEDS ACTION” & overflow menu
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = "WHY YOU SAVED THIS",
-                    style = LaterTypographyTokens.whyHeaderLabel
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(6.dp)
+                            .clip(RoundedCornerShape(1.dp))
+                            .background(LaterTerracotta)
+                    )
+                    Text(
+                        text = "$categoryText · $statusLabel",
+                        style = LaterTypographyTokens.metaCategoryTime
+                    )
+                }
 
+                // Three-dot overflow menu
                 Box {
                     IconButton(
                         onClick = { showMenu = true },
@@ -167,8 +192,8 @@ fun MemoryCard(
                         Icon(
                             imageVector = Icons.Default.MoreVert,
                             contentDescription = "Options",
-                            tint = LaterWarmGray,
-                            modifier = Modifier.size(18.dp)
+                            tint = LaterSecondaryText,
+                            modifier = Modifier.size(19.dp)
                         )
                     }
 
@@ -179,7 +204,56 @@ fun MemoryCard(
                         DropdownMenuItem(
                             text = {
                                 Text(
-                                    "Share",
+                                    text = actionLabel,
+                                    fontFamily = PlusJakartaSansFamily,
+                                    fontSize = 13.5.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = LaterTerracotta
+                                )
+                            },
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Default.PlayArrow,
+                                    contentDescription = null,
+                                    tint = LaterTerracotta,
+                                    modifier = Modifier.size(18.dp)
+                                )
+                            },
+                            onClick = {
+                                showMenu = false
+                                executeAction(context, memory, actionLabel)
+                            }
+                        )
+
+                        if (memory.content.startsWith("http://") || memory.content.startsWith("https://")) {
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                        text = "Open Source Link",
+                                        fontFamily = PlusJakartaSansFamily,
+                                        fontSize = 14.sp,
+                                        fontWeight = FontWeight.Medium,
+                                        color = LaterInkPrimary
+                                    )
+                                },
+                                leadingIcon = {
+                                    Icon(
+                                        Icons.AutoMirrored.Filled.OpenInNew,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(18.dp)
+                                    )
+                                },
+                                onClick = {
+                                    showMenu = false
+                                    openUrl(context, memory.content)
+                                }
+                            )
+                        }
+
+                        DropdownMenuItem(
+                            text = {
+                                Text(
+                                    text = "Share Memory",
                                     fontFamily = PlusJakartaSansFamily,
                                     fontSize = 14.sp,
                                     fontWeight = FontWeight.Medium,
@@ -187,17 +261,22 @@ fun MemoryCard(
                                 )
                             },
                             leadingIcon = {
-                                Icon(Icons.Default.Share, contentDescription = null, modifier = Modifier.size(18.dp))
+                                Icon(
+                                    Icons.Default.Share,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(18.dp)
+                                )
                             },
                             onClick = {
                                 showMenu = false
                                 shareMemory(context, memory)
                             }
                         )
+
                         DropdownMenuItem(
                             text = {
                                 Text(
-                                    "Delete",
+                                    text = "Delete",
                                     fontFamily = PlusJakartaSansFamily,
                                     fontSize = 14.sp,
                                     fontWeight = FontWeight.SemiBold,
@@ -223,33 +302,7 @@ fun MemoryCard(
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            // 1. Dominant WHY: Heart of LATER (strictly enforced editorial serif token)
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(6.dp))
-                    .background(LaterWhyBg.copy(alpha = 0.6f))
-                    .padding(horizontal = 16.dp, vertical = 14.dp),
-                verticalAlignment = Alignment.Top
-            ) {
-                Text(
-                    text = "“",
-                    style = LaterTypographyTokens.whyQuoteMark,
-                    modifier = Modifier.padding(end = 6.dp)
-                )
-
-                Text(
-                    text = memory.why,
-                    style = LaterTypographyTokens.whyCard,
-                    maxLines = 5,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
-
-            Spacer(modifier = Modifier.height(14.dp))
-
-            // 2. TITLE: Clear, readable, secondary sans-serif token
+            // 2. NEXT: Clear resource title in readable sans-serif
             Text(
                 text = memory.title,
                 style = LaterTypographyTokens.titlePrimary,
@@ -257,26 +310,155 @@ fun MemoryCard(
                 overflow = TextOverflow.Ellipsis
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(14.dp))
 
-            // 3. CATEGORY / TIME (e.g. "LEARN · 3H AGO")
-            val categoryLabel = (memory.category ?: "ARCHIVE").uppercase()
+            // 3. THEN: Small all-caps label: “WHY YOU SAVED THIS”
             Text(
-                text = "$categoryLabel · ${relativeTime.uppercase()}",
-                style = LaterTypographyTokens.metaCategoryTime
+                text = "WHY YOU SAVED THIS",
+                style = LaterTypographyTokens.whyHeaderLabel
             )
 
-            // 4. SOURCE: Quiet breadcrumb
-            if (cleanSource.isNotBlank()) {
-                Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(6.dp))
+
+            // 4. THEN: Saved reason in a beautiful serif quote, limited to 3–4 lines
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(LaterWhyBg.copy(alpha = 0.65f))
+                    .padding(horizontal = 14.dp, vertical = 12.dp),
+                verticalAlignment = Alignment.Top
+            ) {
                 Text(
-                    text = cleanSource,
-                    style = LaterTypographyTokens.sourceBreadcrumb,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    text = "“",
+                    style = LaterTypographyTokens.whyQuoteMark,
+                    modifier = Modifier.padding(end = 4.dp)
+                )
+
+                Text(
+                    text = memory.why,
+                    style = LaterTypographyTokens.whyCard,
+                    maxLines = 4,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+
+            // 5. SMALL SOURCE ROW: Tiny icon, domain (e.g. “ishadeed.com”), and relative time (e.g. “3h ago”)
+            if (sourceDomain.isNotBlank()) {
+                Spacer(modifier = Modifier.height(12.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(4.dp))
+                        .clickable {
+                            if (memory.content.startsWith("http")) {
+                                openUrl(context, memory.content)
+                            }
+                        }
+                        .padding(vertical = 2.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.OpenInNew,
+                        contentDescription = null,
+                        tint = LaterTextMuted,
+                        modifier = Modifier.size(13.dp)
+                    )
+
+                    Text(
+                        text = sourceDomain,
+                        style = LaterTypographyTokens.sourceBreadcrumb,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+
+                    Text(
+                        text = "·",
+                        fontFamily = PlusJakartaSansFamily,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = LaterTextMuted
+                    )
+
+                    Text(
+                        text = relativeTime,
+                        fontFamily = PlusJakartaSansFamily,
+                        fontSize = 12.5.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = LaterSecondaryText
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(14.dp))
+
+            // Divider line
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(1.dp)
+                    .background(LaterBorderSubtle)
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // 6. AT THE BOTTOM: Strong but minimal bottom action row:
+            // “START: REDESIGN DASHBOARD →” or “COMPARE OPTIONS →”
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(7.dp))
+                    .background(LaterTerracottaLight)
+                    .border(1.dp, LaterTerracotta.copy(alpha = 0.25f), RoundedCornerShape(7.dp))
+                    .clickable {
+                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                        executeAction(context, memory, actionLabel)
+                    }
+                    .padding(horizontal = 14.dp, vertical = 11.dp)
+                    .testTag("card_action_btn_${memory.id}"),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = actionLabel,
+                    style = LaterTypographyTokens.cardAction
+                )
+
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                    contentDescription = "Take action",
+                    tint = LaterTerracotta,
+                    modifier = Modifier.size(16.dp)
                 )
             }
         }
+    }
+}
+
+private fun executeAction(context: Context, memory: MemoryEntity, actionLabel: String) {
+    if (memory.content.startsWith("http://") || memory.content.startsWith("https://")) {
+        try {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(memory.content)).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            context.startActivity(intent)
+            Toast.makeText(context, "Opening resource for: $actionLabel", Toast.LENGTH_SHORT).show()
+            return
+        } catch (_: Exception) {}
+    }
+    Toast.makeText(context, "Action ready: $actionLabel", Toast.LENGTH_SHORT).show()
+}
+
+private fun openUrl(context: Context, url: String) {
+    try {
+        val target = if (!url.startsWith("http://") && !url.startsWith("https://")) "https://$url" else url
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(target)).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        context.startActivity(intent)
+    } catch (_: Exception) {
+        Toast.makeText(context, "Cannot open $url", Toast.LENGTH_SHORT).show()
     }
 }
 
@@ -308,18 +490,15 @@ fun formatArchiveRelativeTime(timestamp: Long): String {
     }
 }
 
-fun formatRelativeTime(timestamp: Long): String {
-    return formatArchiveRelativeTime(timestamp)
-}
-
 private fun shareMemory(context: Context, memory: MemoryEntity) {
     val shareBody = buildString {
-        append("WHY: ${memory.why}\n\n")
+        append("WHY: “${memory.why}”\n\n")
         append("Title: ${memory.title}\n")
         if (memory.content.isNotBlank()) {
             append("Source: ${memory.content}\n")
         }
-        append("\nSaved with LATER")
+        append("Action: ${memory.resolveAction()}\n")
+        append("\n— Saved with LATER: Save the why. Act when it matters.")
     }
 
     val intent = Intent(Intent.ACTION_SEND).apply {

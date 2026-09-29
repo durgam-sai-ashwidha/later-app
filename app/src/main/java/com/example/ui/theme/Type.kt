@@ -30,54 +30,54 @@ val Typography = Typography(
     displayLarge = TextStyle(
         fontFamily = NewsreaderFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = 34.sp,
-        lineHeight = 42.sp,
-        letterSpacing = (-0.5).sp,
+        fontSize = 30.sp,
+        lineHeight = 38.sp,
+        letterSpacing = (-0.4).sp,
         color = LaterInkPrimary
     ),
     headlineLarge = TextStyle(
         fontFamily = NewsreaderFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = 28.sp,
-        lineHeight = 36.sp,
-        letterSpacing = (-0.3).sp,
+        fontSize = 25.sp,
+        lineHeight = 32.sp,
+        letterSpacing = (-0.2).sp,
         color = LaterInkPrimary
     ),
     headlineMedium = TextStyle(
         fontFamily = NewsreaderFamily,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 22.sp,
-        lineHeight = 30.sp,
+        fontSize = 21.sp,
+        lineHeight = 28.sp,
         color = LaterInkPrimary
     ),
     headlineSmall = TextStyle(
         fontFamily = NewsreaderFamily,
         fontWeight = FontWeight.Medium,
-        fontSize = 19.sp,
-        lineHeight = 26.sp,
+        fontSize = 18.5.sp,
+        lineHeight = 25.sp,
         color = LaterInkPrimary
     ),
     titleLarge = TextStyle(
         fontFamily = PlusJakartaSansFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 18.sp,
-        lineHeight = 26.sp,
+        lineHeight = 25.sp,
         letterSpacing = 0.sp,
         color = LaterInkPrimary
     ),
     titleMedium = TextStyle(
         fontFamily = PlusJakartaSansFamily,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 15.sp,
+        fontSize = 15.5.sp,
         lineHeight = 22.sp,
         letterSpacing = 0.15.sp,
         color = LaterInkPrimary
     ),
     titleSmall = TextStyle(
         fontFamily = PlusJakartaSansFamily,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 13.sp,
-        lineHeight = 18.sp,
+        fontWeight = FontWeight.Bold,
+        fontSize = 13.5.sp,
+        lineHeight = 19.sp,
         letterSpacing = 0.1.sp,
         color = LaterInkPrimary
     ),
@@ -92,38 +92,38 @@ val Typography = Typography(
     bodyMedium = TextStyle(
         fontFamily = PlusJakartaSansFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 14.sp,
+        fontSize = 14.5.sp,
         lineHeight = 22.sp,
-        letterSpacing = 0.25.sp,
-        color = LaterWarmGray
+        letterSpacing = 0.2.sp,
+        color = LaterSecondaryText
     ),
     bodySmall = TextStyle(
         fontFamily = PlusJakartaSansFamily,
-        fontWeight = FontWeight.Normal,
-        fontSize = 12.sp,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 13.sp,
         lineHeight = 18.sp,
-        letterSpacing = 0.3.sp,
-        color = LaterTextMuted
+        letterSpacing = 0.2.sp,
+        color = LaterSecondaryText
     ),
     labelLarge = TextStyle(
         fontFamily = PlusJakartaSansFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = 13.sp,
-        lineHeight = 18.sp,
+        fontSize = 14.sp,
+        lineHeight = 19.sp,
         letterSpacing = 0.8.sp
     ),
     labelMedium = TextStyle(
         fontFamily = PlusJakartaSansFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 1.2.sp
+        fontSize = 13.sp,
+        lineHeight = 18.sp,
+        letterSpacing = 1.sp
     ),
     labelSmall = TextStyle(
         fontFamily = PlusJakartaSansFamily,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 10.sp,
-        lineHeight = 14.sp,
-        letterSpacing = 1.sp
+        fontWeight = FontWeight.Bold,
+        fontSize = 12.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 0.8.sp
     )
 )

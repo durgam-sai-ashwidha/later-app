@@ -32,9 +32,9 @@ fun CategoryBadge(
             text = category.uppercase(),
             fontFamily = PlusJakartaSansFamily,
             color = LaterInkPrimary,
-            fontSize = 11.sp,
-            fontWeight = FontWeight.Bold,
-            letterSpacing = 1.sp
+            fontSize = 13.sp,
+            fontWeight = FontWeight.ExtraBold,
+            letterSpacing = 0.8.sp
         )
     }
 }

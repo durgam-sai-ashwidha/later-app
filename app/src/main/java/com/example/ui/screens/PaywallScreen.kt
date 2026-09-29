@@ -48,6 +48,7 @@ import com.example.ui.theme.LaterCardBg
 import com.example.ui.theme.LaterDarkAccent
 import com.example.ui.theme.LaterInkPrimary
 import com.example.ui.theme.LaterPaperBg
+import com.example.ui.theme.LaterSecondaryText
 import com.example.ui.theme.LaterTerracotta
 import com.example.ui.theme.LaterTerracottaLight
 import com.example.ui.theme.LaterTextMuted
@@ -207,10 +208,10 @@ fun PaywallScreen(
                             Text(
                                 text = if (isPro) "ACTIVE" else "$totalCount / 50 SAVED",
                                 fontFamily = PlusJakartaSansFamily,
-                                fontSize = 11.sp,
-                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 13.sp,
+                                fontWeight = FontWeight.Bold,
                                 letterSpacing = 0.8.sp,
-                                color = LaterTextMuted
+                                color = LaterInkPrimary
                             )
                         }
 
@@ -230,7 +231,7 @@ fun PaywallScreen(
                             ) {
                                 Box(
                                     modifier = Modifier
-                                        .size(20.dp)
+                                        .size(22.dp)
                                         .clip(CircleShape)
                                         .background(LaterTerracottaLight),
                                     contentAlignment = Alignment.Center
@@ -238,8 +239,8 @@ fun PaywallScreen(
                                     Text(
                                         text = "✓",
                                         fontFamily = PlusJakartaSansFamily,
-                                        fontSize = 11.sp,
-                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 12.5.sp,
+                                        fontWeight = FontWeight.ExtraBold,
                                         color = LaterTerracotta
                                     )
                                 }
@@ -247,8 +248,8 @@ fun PaywallScreen(
                                 Text(
                                     text = benefit,
                                     fontFamily = PlusJakartaSansFamily,
-                                    fontSize = 14.5.sp,
-                                    fontWeight = FontWeight.Medium,
+                                    fontSize = 15.sp,
+                                    fontWeight = FontWeight.SemiBold,
                                     color = LaterInkPrimary
                                 )
                             }
@@ -270,10 +271,10 @@ fun PaywallScreen(
                     Text(
                         text = "“50 memories is enough to experience LATER.\nPro is for keeping it.”",
                         fontFamily = NewsreaderFamily,
-                        fontSize = 15.sp,
+                        fontSize = 15.5.sp,
                         lineHeight = 22.sp,
                         fontWeight = FontWeight.Medium,
-                        color = LaterWarmGray,
+                        color = LaterInkPrimary,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -303,7 +304,7 @@ fun PaywallScreen(
                     Text(
                         text = if (isPro) "PRO ACTIVE — RETURN TO ARCHIVE" else "CONTINUE WITH PRO",
                         fontFamily = PlusJakartaSansFamily,
-                        fontSize = 14.sp,
+                        fontSize = 15.sp,
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 1.2.sp,
                         color = Color.White
@@ -327,9 +328,9 @@ fun PaywallScreen(
                     Text(
                         text = "Restore purchases",
                         fontFamily = PlusJakartaSansFamily,
-                        fontSize = 13.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = LaterTextMuted
+                        fontSize = 13.5.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = LaterSecondaryText
                     )
                 }
 
@@ -347,9 +348,9 @@ fun PaywallScreen(
                     Text(
                         text = "Not now",
                         fontFamily = PlusJakartaSansFamily,
-                        fontSize = 13.sp,
-                        fontWeight = FontWeight.Normal,
-                        color = LaterWarmGray
+                        fontSize = 13.5.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = LaterSecondaryText
                     )
                 }
 
@@ -358,9 +359,10 @@ fun PaywallScreen(
                 Text(
                     text = "Subscription is managed securely via Google Play.\nExisting memories and search always remain accessible.",
                     fontFamily = PlusJakartaSansFamily,
-                    fontSize = 11.sp,
-                    lineHeight = 16.sp,
-                    color = LaterTextMuted,
+                    fontSize = 12.5.sp,
+                    lineHeight = 18.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = LaterSecondaryText,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
                 )

@@ -65,7 +65,7 @@ export default function SettingsScreen({ navigation }) {
             styles.settingCard,
             {
               backgroundColor: isDark ? '#1E1E1E' : '#FFFFFF',
-              borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(139,0,0,0.1)',
+              borderColor: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(139,0,0,0.15)',
             },
             SHADOWS.card,
           ]}
@@ -74,7 +74,7 @@ export default function SettingsScreen({ navigation }) {
             <Text style={[styles.settingLabel, { color: colors.text }]}>
               Dark Mode
             </Text>
-            <Text style={[styles.settingSub, { color: colors.subText || '#666' }]}>
+            <Text style={[styles.settingSub, { color: colors.subText }]}>
               Switch between light (cream) and dark (crimson)
             </Text>
           </View>
@@ -83,7 +83,7 @@ export default function SettingsScreen({ navigation }) {
             activeOpacity={0.8}
             style={[
               styles.switchTrack,
-              { backgroundColor: isDark ? colors.primary : '#E5E5E5' },
+              { backgroundColor: isDark ? colors.primary : '#D1D5DB' },
             ]}
           >
             <View
@@ -101,7 +101,7 @@ export default function SettingsScreen({ navigation }) {
             styles.settingCard,
             {
               backgroundColor: isDark ? '#1E1E1E' : '#FFFFFF',
-              borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(139,0,0,0.1)',
+              borderColor: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(139,0,0,0.15)',
             },
             SHADOWS.card,
           ]}
@@ -115,7 +115,7 @@ export default function SettingsScreen({ navigation }) {
             <Text style={[styles.settingLabel, { color: colors.text }]}>
               LATER Pro Membership
             </Text>
-            <Text style={[styles.settingSub, { color: colors.subText || '#666' }]}>
+            <Text style={[styles.settingSub, { color: colors.subText }]}>
               Manage streak insurance, AI models & custom roadmaps
             </Text>
           </View>
@@ -128,7 +128,7 @@ export default function SettingsScreen({ navigation }) {
             styles.settingCard,
             {
               backgroundColor: isDark ? '#1E1E1E' : '#FFFFFF',
-              borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(139,0,0,0.1)',
+              borderColor: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(139,0,0,0.15)',
             },
             SHADOWS.card,
           ]}
@@ -163,14 +163,14 @@ export default function SettingsScreen({ navigation }) {
         </TouchableOpacity>
 
         {/* About App Section */}
-        <View style={[styles.aboutContainer, { borderTopColor: isDark ? 'rgba(255,255,255,0.1)' : '#E5E5E5' }]}>
+        <View style={[styles.aboutContainer, { borderTopColor: isDark ? 'rgba(255,255,255,0.15)' : '#D1D5DB' }]}>
           <Text style={[styles.appVersion, { color: colors.text }]}>
             LATER v1.0.0 (Production Release)
           </Text>
-          <Text style={[styles.appTagline, { color: colors.subText || '#777' }]}>
+          <Text style={[styles.appTagline, { color: colors.subText }]}>
             Built with ❤️ for developers stuck in tutorial hell.
           </Text>
-          <Text style={[styles.privacyNote, { color: colors.subText || '#888' }]}>
+          <Text style={[styles.privacyNote, { color: colors.subText }]}>
             🔒 Privacy First: Your code and milestones are stored securely on your device.
           </Text>
         </View>
@@ -187,36 +187,37 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentContainer: {
-    padding: 24,
-    paddingBottom: 48,
+    padding: 22,
+    paddingBottom: 40,
   },
   headerTitle: {
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: '800',
-    letterSpacing: -1,
-    marginBottom: 28,
+    letterSpacing: -0.5,
+    marginBottom: 24,
   },
   settingCard: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 20,
+    padding: 18,
     borderRadius: BORDER_RADIUS.card,
-    borderWidth: 1,
+    borderWidth: 1.5,
     marginBottom: 16,
   },
   settingInfo: {
     flex: 1,
-    marginRight: 16,
+    marginRight: 14,
   },
   settingLabel: {
-    fontSize: 18,
-    fontWeight: '700',
+    fontSize: 17,
+    fontWeight: '800',
   },
   settingSub: {
-    fontSize: 14,
+    fontSize: 15,
+    fontWeight: '700',
     marginTop: 4,
-    lineHeight: 18,
+    lineHeight: 20,
   },
   switchTrack: {
     width: 58,
@@ -235,33 +236,35 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 18,
+    padding: 16,
     borderRadius: BORDER_RADIUS.button,
-    borderWidth: 1.5,
-    marginTop: 16,
-    marginBottom: 32,
+    borderWidth: 2,
+    marginTop: 14,
+    marginBottom: 28,
   },
   resetBtnText: {
     fontSize: 16,
-    fontWeight: '700',
+    fontWeight: '800',
   },
   aboutContainer: {
-    borderTopWidth: 1,
-    paddingTop: 24,
+    borderTopWidth: 1.5,
+    paddingTop: 22,
     alignItems: 'center',
   },
   appVersion: {
-    fontSize: 15,
-    fontWeight: '700',
+    fontSize: 16,
+    fontWeight: '800',
   },
   appTagline: {
-    fontSize: 14,
+    fontSize: 15,
+    fontWeight: '700',
     marginTop: 6,
     textAlign: 'center',
   },
   privacyNote: {
-    fontSize: 12,
-    marginTop: 10,
+    fontSize: 14,
+    fontWeight: '700',
+    marginTop: 8,
     textAlign: 'center',
   },
 });

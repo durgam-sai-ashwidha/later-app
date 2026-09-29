@@ -14,6 +14,13 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
+enum class MemorySortOption(val label: String) {
+    NEWEST("Newest first"),
+    OLDEST("Oldest first"),
+    ACTIONABLE("Action ready first"),
+    TITLE("Alphabetical")
+}
+
 sealed interface ExtractionState {
     object Idle : ExtractionState
     object Loading : ExtractionState
@@ -45,10 +52,18 @@ class MemoryViewModel(
     val selectedCategory: StateFlow<String?> = _selectedCategory.asStateFlow()
 
     fun selectCategory(category: String?) {
-        _selectedCategory.value = category
+        _selectedCategory.value = if (category.equals("All", ignoreCase = true)) null else category
     }
 
-    // Search query & results
+    // Sort order
+    private val _sortOption = MutableStateFlow(MemorySortOption.NEWEST)
+    val sortOption: StateFlow<MemorySortOption> = _sortOption.asStateFlow()
+
+    fun setSortOption(option: MemorySortOption) {
+        _sortOption.value = option
+    }
+
+    // Search query
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
@@ -60,14 +75,15 @@ class MemoryViewModel(
         _searchQuery.value = ""
     }
 
-    // Filtered memories for Home screen (combines all memories, category, and full-text search)
+    // Filtered & sorted memories for Home screen
     val homeMemories: StateFlow<List<MemoryEntity>> = combine(
         repository.allMemories,
         _selectedCategory,
-        _searchQuery
-    ) { memories, category, query ->
+        _searchQuery,
+        _sortOption
+    ) { memories, category, query, sort ->
         var list = memories
-        if (!category.isNullOrBlank()) {
+        if (!category.isNullOrBlank() && !category.equals("All", ignoreCase = true)) {
             list = list.filter { it.category.equals(category, ignoreCase = true) }
         }
         if (query.isNotBlank()) {
@@ -76,17 +92,23 @@ class MemoryViewModel(
                 item.why.lowercase().contains(q) ||
                 item.title.lowercase().contains(q) ||
                 item.content.lowercase().contains(q) ||
-                (item.category?.lowercase()?.contains(q) == true)
+                (item.category?.lowercase()?.contains(q) == true) ||
+                (item.action?.lowercase()?.contains(q) == true)
             }
         }
-        list
+        when (sort) {
+            MemorySortOption.NEWEST -> list.sortedByDescending { it.createdAt }
+            MemorySortOption.OLDEST -> list.sortedBy { it.createdAt }
+            MemorySortOption.ACTIONABLE -> list.sortedByDescending { it.action != null }
+            MemorySortOption.TITLE -> list.sortedBy { it.title.lowercase() }
+        }
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = emptyList()
     )
 
-    // Search results (across title, why, and content)
+    // Search results (across title, why, content, and category)
     val searchResults: StateFlow<List<MemoryEntity>> = combine(
         repository.allMemories,
         _searchQuery
@@ -144,6 +166,7 @@ class MemoryViewModel(
         title: String,
         why: String,
         category: String?,
+        action: String? = null,
         onSaved: () -> Unit
     ) {
         if (why.isBlank()) return
@@ -152,7 +175,8 @@ class MemoryViewModel(
             content = content.trim(),
             title = title.ifBlank { "Untitled Note" }.trim(),
             why = why.trim(),
-            category = category?.takeIf { it.isNotBlank() }
+            category = category?.takeIf { it.isNotBlank() },
+            action = action?.takeIf { it.isNotBlank() }
         )
 
         viewModelScope.launch {

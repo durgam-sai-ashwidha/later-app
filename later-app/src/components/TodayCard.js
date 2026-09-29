@@ -20,7 +20,7 @@ export default function TodayCard({ task, onStartPress }) {
         </Text>
         <Text style={styles.skillLabel}>Skill: {task.skill || 'React'}</Text>
         <Text style={styles.description}>{task.task || 'Build today’s milestone.'}</Text>
-        <Text style={styles.timeEstimate}>⏱️ {task.estimatedMinutes || 30} min</Text>
+        <Text style={styles.timeEstimate}>⏱️ {task.estimatedMinutes || 30} min estimate</Text>
 
         <View style={styles.buttonContainer}>
           <PremiumButton
@@ -37,42 +37,41 @@ export default function TodayCard({ task, onStartPress }) {
 const styles = StyleSheet.create({
   cardWrapper: {
     borderRadius: BORDER_RADIUS.card,
-    marginBottom: 28,
+    marginBottom: 24,
   },
   cardGradient: {
-    padding: 28,
+    padding: 24,
     borderRadius: BORDER_RADIUS.card,
-    borderWidth: 1,
-    borderColor: 'rgba(139, 0, 0, 0.1)',
+    borderWidth: 1.5,
+    borderColor: 'rgba(139, 0, 0, 0.12)',
   },
   title: {
     color: COLORS.primary,
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: '800',
-    letterSpacing: -0.5,
-    lineHeight: 28,
+    letterSpacing: -0.4,
+    lineHeight: 26,
   },
   skillLabel: {
-    color: COLORS.text,
+    color: COLORS.primaryDark,
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '800',
     marginTop: 10,
-    opacity: 0.9,
   },
   description: {
     color: COLORS.text,
-    fontSize: 18,
-    fontWeight: '400',
-    marginTop: 10,
-    lineHeight: 26,
+    fontSize: 16,
+    fontWeight: '600',
+    marginTop: 8,
+    lineHeight: 24,
   },
   timeEstimate: {
     color: COLORS.progress,
     fontSize: 16,
-    fontWeight: '600',
-    marginTop: 14,
+    fontWeight: '800',
+    marginTop: 12,
   },
   buttonContainer: {
-    marginTop: 20,
+    marginTop: 18,
   },
 });

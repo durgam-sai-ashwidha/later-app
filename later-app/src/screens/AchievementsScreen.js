@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
 import GradientView from '../components/GradientView';
 import PremiumDivider from '../components/PremiumDivider';
 import { useTheme } from '../utils/ThemeContext';
@@ -126,7 +125,7 @@ export default function AchievementsScreen() {
             onPress={toggleTheme}
             activeOpacity={0.8}
           >
-            <Text style={styles.themeToggleText}>
+            <Text style={[styles.themeToggleText, { color: colors.text }]}>
               {isDark ? '☀️ Light' : '🌙 Dark'}
             </Text>
           </TouchableOpacity>
@@ -148,7 +147,7 @@ export default function AchievementsScreen() {
                 colors={isDark ? GRADIENTS.cardDark : GRADIENTS.card}
                 style={[
                   styles.badgeCard,
-                  { borderColor: badge.unlocked ? colors.primary : 'rgba(128,128,128,0.2)' },
+                  { borderColor: badge.unlocked ? colors.primary : 'rgba(128,128,128,0.25)' },
                 ]}
               >
                 <Text style={[styles.badgeIcon, !badge.unlocked && styles.lockedIcon]}>
@@ -157,13 +156,13 @@ export default function AchievementsScreen() {
                 <Text style={[styles.badgeName, { color: badge.unlocked ? colors.primary : colors.text }]}>
                   {badge.name}
                 </Text>
-                <Text style={[styles.badgeReq, { color: colors.subText || '#666' }]}>
+                <Text style={[styles.badgeReq, { color: colors.subText }]}>
                   {badge.requirement}
                 </Text>
                 <View
                   style={[
                     styles.statusPill,
-                    { backgroundColor: badge.unlocked ? colors.progress : '#8E8E93' },
+                    { backgroundColor: badge.unlocked ? colors.progress : '#6B7280' },
                   ]}
                 >
                   <Text style={styles.statusPillText}>
@@ -190,7 +189,7 @@ export default function AchievementsScreen() {
         <View style={[styles.leaderboardCard, SHADOWS.card]}>
           <GradientView
             colors={isDark ? GRADIENTS.cardDark : GRADIENTS.card}
-            style={[styles.leaderboardGradient, { borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(139,0,0,0.1)' }]}
+            style={[styles.leaderboardGradient, { borderColor: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(139,0,0,0.15)' }]}
           >
             {leaderboard.map((user, idx) => (
               <View
@@ -238,88 +237,88 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentContainer: {
-    padding: 24,
-    paddingBottom: 48,
+    padding: 22,
+    paddingBottom: 40,
   },
   topHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 28,
+    marginBottom: 24,
   },
   headerTitle: {
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: '800',
-    letterSpacing: -1,
+    letterSpacing: -0.5,
   },
   headerSub: {
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: '700',
     marginTop: 4,
-    opacity: 0.85,
   },
   themeToggleBtn: {
-    paddingHorizontal: 14,
-    paddingVertical: 10,
+    paddingHorizontal: 15,
+    paddingVertical: 9,
     borderRadius: BORDER_RADIUS.button,
-    borderWidth: 1,
-    borderColor: 'rgba(139,0,0,0.15)',
+    borderWidth: 1.5,
+    borderColor: 'rgba(139,0,0,0.2)',
   },
   themeToggleText: {
-    fontSize: 14,
-    fontWeight: '700',
+    fontSize: 15,
+    fontWeight: '800',
   },
   sectionTitle: {
-    fontSize: 22,
+    fontSize: 19,
     fontWeight: '800',
-    letterSpacing: -0.5,
-    marginBottom: 16,
+    letterSpacing: -0.3,
+    marginBottom: 14,
   },
   badgeGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 14,
+    gap: 12,
     justifyContent: 'space-between',
   },
   badgeCardWrapper: {
-    width: '47%',
+    width: '48%',
     borderRadius: BORDER_RADIUS.card,
   },
   lockedBadgeWrapper: {
-    opacity: 0.55,
+    opacity: 0.65,
   },
   badgeCard: {
-    padding: 18,
+    padding: 16,
     borderRadius: BORDER_RADIUS.card,
     borderWidth: 1.5,
     alignItems: 'center',
   },
   badgeIcon: {
-    fontSize: 44,
+    fontSize: 40,
   },
   lockedIcon: {
-    opacity: 0.6,
+    opacity: 0.7,
   },
   badgeName: {
     fontSize: 16,
-    fontWeight: '700',
-    marginTop: 10,
+    fontWeight: '800',
+    marginTop: 8,
     textAlign: 'center',
   },
   badgeReq: {
-    fontSize: 12,
+    fontSize: 14,
+    fontWeight: '700',
     marginTop: 4,
     textAlign: 'center',
   },
   statusPill: {
-    marginTop: 12,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
+    marginTop: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 5,
     borderRadius: 12,
   },
   statusPillText: {
     color: '#FFFFFF',
-    fontSize: 10,
+    fontSize: 12.5,
     fontWeight: '800',
     letterSpacing: 0.5,
   },
@@ -327,37 +326,37 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 16,
+    marginBottom: 14,
   },
   leaderboardLiveTag: {
-    fontSize: 13,
-    fontWeight: '700',
+    fontSize: 14,
+    fontWeight: '800',
   },
   leaderboardCard: {
     borderRadius: BORDER_RADIUS.card,
   },
   leaderboardGradient: {
     borderRadius: BORDER_RADIUS.card,
-    borderWidth: 1,
-    paddingVertical: 6,
+    borderWidth: 1.5,
+    paddingVertical: 4,
   },
   leaderboardRow: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 14,
-    paddingHorizontal: 18,
+    paddingHorizontal: 16,
   },
   userHighlightRow: {
-    backgroundColor: 'rgba(139, 0, 0, 0.05)',
+    backgroundColor: 'rgba(139, 0, 0, 0.08)',
   },
   rowDivider: {
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(128, 128, 128, 0.15)',
+    borderBottomColor: 'rgba(128, 128, 128, 0.2)',
   },
   rankText: {
     fontSize: 18,
     fontWeight: '800',
-    width: 38,
+    width: 36,
   },
   avatarText: {
     fontSize: 22,
@@ -366,7 +365,7 @@ const styles = StyleSheet.create({
   userName: {
     flex: 1,
     fontSize: 16,
-    fontWeight: '700',
+    fontWeight: '800',
   },
   userStreak: {
     fontSize: 16,
